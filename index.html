@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>東京秋日漫遊 2026 🍁 11天自由行隨身手冊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        tokyo: {
+                            red: '#E63946',
+                            gold: '#D4AF37',
+                            accent: '#FF6B6B',
+                            subtle: '#8E8E9A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { transition: background-color 0.25s ease, border-color 0.25s ease; }
+        body { -webkit-tap-highlight-color: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 全域字體大小控制 */
+        html.font-sm body { font-size: 13px !important; }
+        html.font-md body { font-size: 15px !important; }
+        html.font-lg body { font-size: 18px !important; }
+
+        html.font-sm .text-title, html.font-sm h3, html.font-sm h2 { font-size: 1.05rem !important; }
+        html.font-md .text-title, html.font-md h3, html.font-md h2 { font-size: 1.25rem !important; }
+        html.font-lg .text-title, html.font-lg h3, html.font-lg h2 { font-size: 1.45rem !important; }
+
+        html.font-sm .text-desc, html.font-sm p { font-size: 0.85rem !important; }
+        html.font-md .text-desc, html.font-md p { font-size: 0.95rem !important; }
+        html.font-lg .text-desc, html.font-lg p { font-size: 1.15rem !important; }
+
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .badge-tabelog { background: linear-gradient(135deg, #FF9900 0%, #FF5500 100%); }
+        .btn-press:active { transform: scale(0.96); }
+
+        .weather-card-inline {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 6px 12px;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+        }
+
+        .day-arrow-btn {
+            position: fixed;
+            top: 55%;
+            transform: translateY(-50%);
+            z-index: 45;
+            background-color: rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(6px);
+            color: rgba(255, 255, 255, 0.85);
+            width: 38px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .dark .day-arrow-btn {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .day-arrow-btn:active {
+            transform: translateY(-50%) scale(0.92);
+            background-color: #E63946;
+            color: #ffffff;
+        }
+
+        /* 橫向滑動 Slide bar 滑鼠拖曳樣式 */
+        .drag-scroll {
+            cursor: grab;
+            user-select: none;
+        }
+        .drag-scroll:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-gray-50 text-gray-800 dark:bg-slate-900 dark:text-gray-100 min-h-screen pb-24">
+
+    <!-- 畫面兩側半透明懸浮箭咀 -->
+    <button id="btnPrevDay" onclick="navigateDay(-1)" class="day-arrow-btn left-0 rounded-r-2xl hidden" title="上一天">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button id="btnNextDay" onclick="navigateDay(1)" class="day-arrow-btn right-0 rounded-l-2xl hidden" title="下一天">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Modal: 神社專頁彈窗 -->
+    <div id="shrineModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-2xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative border border-gray-200 dark:border-slate-700">
+            <!-- Header (神社名稱) -->
+            <div class="p-4 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between bg-gray-50 dark:bg-slate-800/80 sticky top-0 z-10">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">⛩️</span>
+                    <h3 id="modalShrineName" class="font-black text-base text-gray-900 dark:text-white">神社名稱</h3>
+                </div>
+                <button onclick="closeShrineModal()" class="p-2 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white rounded-full">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <!-- Body Content -->
+            <div id="modalShrineContent" class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm"></div>
+            <!-- Footer: 10 社左右滑動切換列 (Slide Bar) -->
+            <div class="p-2.5 bg-gray-100 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 shrink-0">
+                <div id="shrineBottomNav" class="flex items-center gap-2 overflow-x-auto hide-scrollbar px-1 py-0.5 drag-scroll"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: 交通規劃專頁彈窗 -->
+    <div id="transitModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-2xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative border border-gray-200 dark:border-slate-700">
+            <div class="p-4 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between bg-gray-50 dark:bg-slate-800/80">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🚃</span>
+                    <h3 class="font-black text-base text-gray-900 dark:text-white">東京 2026 交通規劃專頁</h3>
+                </div>
+                <button onclick="closeTransitModal()" class="p-2 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white rounded-full">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto space-y-5 text-xs sm:text-sm text-gray-700 dark:text-gray-200">
+                <!-- 核心工具 -->
+                <div>
+                    <h4 class="font-black text-tokyo-red text-sm mb-2 flex items-center gap-2">📍 核心導航工具</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://maps.google.com" target="_blank" class="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center gap-2 font-bold text-blue-600 dark:text-blue-400">
+                            <i class="fa-solid fa-map-location-dot text-lg"></i> Google Maps
+                        </a>
+                        <a href="https://transit.yahoo.co.jp" target="_blank" class="p-3 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 rounded-xl flex items-center gap-2 font-bold text-purple-600 dark:text-purple-400">
+                            <i class="fa-solid fa-train text-lg"></i> Yahoo! 乘換案內
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 主要鐵路與巴士路線圖 -->
+                <div>
+                    <h4 class="font-black text-tokyo-red text-sm mb-2 flex items-center gap-2">🚆 行程乘車鐵路 / 巴士路線圖連結</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="https://www.jreast.co.jp/map/" target="_blank" class="p-2.5 bg-gray-100 dark:bg-slate-700 rounded-xl flex items-center justify-between hover:text-tokyo-red font-bold">
+                                <span>JR 東日本首都圈鐵路網 (山手線/中央線/青梅線)</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tokyometro.jp/lang_tcn/station/index.html" target="_blank" class="p-2.5 bg-gray-100 dark:bg-slate-700 rounded-xl flex items-center justify-between hover:text-tokyo-red font-bold">
+                                <span>東京地下鐵 (Tokyo Metro) & 都營地下鐵路線圖</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tobu.co.jp/tcn/railway/" target="_blank" class="p-2.5 bg-gray-100 dark:bg-slate-700 rounded-xl flex items-center justify-between hover:text-tokyo-red font-bold">
+                                <span>東武鐵道 (東上線：池袋 ↔ 東武練馬)</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.seiburailway.jp/zh-tw/railway/route/index.html" target="_blank" class="p-2.5 bg-gray-100 dark:bg-slate-700 rounded-xl flex items-center justify-between hover:text-tokyo-red font-bold">
+                                <span>西武鐵道 (池袋線 ‧ 特急 Laview 往秩父)</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.nisitokyobus.co.jp/" target="_blank" class="p-2.5 bg-gray-100 dark:bg-slate-700 rounded-xl flex items-center justify-between hover:text-tokyo-red font-bold">
+                                <span>西東京巴士 (奧多摩地區觀光巴士)</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.limousinebus.co.jp/guide/timetable/" target="_blank" class="p-2.5 bg-gray-100 dark:bg-slate-700 rounded-xl flex items-center justify-between hover:text-tokyo-red font-bold">
+                                <span>成田機場利木津巴士 (Limousine Bus)</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 香港本地交通 -->
+                <div class="pt-3 border-t border-gray-200 dark:border-slate-700">
+                    <h4 class="font-black text-tokyo-red text-sm mb-2 flex items-center gap-2">🚌 香港本地往返機場交通</h4>
+                    <a href="https://mobile.citybus.com.hk/nwp3/?f=1&ds=A12&dsmode=1&l=0" target="_blank" class="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl flex items-center justify-between font-bold text-amber-700 dark:text-amber-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-bus text-lg"></i>
+                            <span>城巴 A12 機場快線路線與班次資訊</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/60 z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Drawer Menu -->
+    <aside id="drawerMenu" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-slate-800 z-50 transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col justify-between overflow-y-auto">
+        <div class="p-5">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-slate-700">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🗼</span>
+                    <h3 class="font-bold text-base text-gray-900 dark:text-white">東京 2026 行程選單</h3>
+                </div>
+                <button onclick="toggleDrawer(false)" class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white rounded-lg">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- 主選單項目 -->
+            <div class="py-3 border-b border-gray-200 dark:border-slate-700 space-y-1">
+                <button onclick="switchDay('all'); toggleDrawer(false);" class="w-full text-left py-2.5 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 font-bold flex items-center justify-between">
+                    <span>📅 11 天行程總覽</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </button>
+
+                <!-- 東京十社 Submenu -->
+                <div>
+                    <button onclick="toggleSubmenu('shrinesSub')" class="w-full text-left py-2.5 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 font-bold flex items-center justify-between">
+                        <span>⛩️ 東京十社專頁</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+                    </button>
+                    <div id="shrinesSub" class="hidden pl-4 py-1 space-y-1 bg-gray-50 dark:bg-slate-900/60 rounded-xl">
+                        <a href="javascript:void(0)" onclick="openShrineModal(1); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">1. 富岡八幡宮 (門前仲町)</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(2); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">2. 龜戶天神社 (龜戶)</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(3); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">3. 神田神社 (神田明神)</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(4); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">4. 日枝神社 (赤坂)</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(5); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">5. 赤坂冰川神社</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(6); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">6. 根津神社 (千本鳥居)</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(7); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">7. 白山神社</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(8); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">8. 王子神社</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(9); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">9. 芝大神宮 (芝公園)</a>
+                        <a href="javascript:void(0)" onclick="openShrineModal(10); toggleDrawer(false);" class="block py-1.5 px-2 text-xs text-gray-600 dark:text-gray-300 hover:text-tokyo-red">10. 品川神社 (十社大滿貫 🎉)</a>
+                    </div>
+                </div>
+
+                <!-- 美食 Tabelog Submenu -->
+                <div>
+                    <button onclick="toggleSubmenu('foodSub')" class="w-full text-left py-2.5 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 font-bold flex items-center justify-between">
+                        <span>🍱 美食餐廳 Tabelog</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+                    </button>
+                    <div id="foodSub" class="hidden pl-4 py-1 space-y-1 bg-gray-50 dark:bg-slate-900/60 rounded-xl text-xs">
+                        <a href="https://tabelog.com/tw/tokyo/A1305/A130501/13192558/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍣 Triton 迴轉壽司 (3.58)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1312/A131202/13056800/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍱 八兵衛青鰻 (3.65)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1312/A131202/13018018/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">☕ 珈琲道場侍 (3.71)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1330/A133004/13045241/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍲 鳩の巣釜めし (3.40)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1330/A133003/13057838/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍶 澤乃井園清流ガーデン (3.46)</a>
+                        <a href="https://tabelog.com/tokyo/A1310/A131002/13126204/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🥪 みじんこ Café (3.78)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1307/A130701/13230170/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🥩 焼肉 冷麺 ユッチャン (3.65)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1311/A131106/13009812/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🥢 根津 鷹匠 蕎麥麵 (3.71)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1311/A131106/13003559/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍨 芋甚 日式雪糕 (3.71)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1323/A132303/13232817/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍜 King製麵 (3.79)</a>
+                        <a href="https://tabelog.com/tw/saitama/A1107/A110701/11003478/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🥐 Lapin Noir 麵包 (3.65)</a>
+                        <a href="https://tabelog.com/saitama/A1107/A110704/11050608/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍚 長瀞 有隣 味味噌豬肉丼 (3.44)</a>
+                        <a href="https://tabelog.com/tw/saitama/A1107/A110704/11000617/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍧 阿左美冷蔵 刨冰 (3.64)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1314/A131401/13170377/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🥩 Tonkatsu Iwai 炸豬排 (3.75)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1314/A131401/13120999/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">☕ Le Pain Quotidien (3.70)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1314/A131403/13319190/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍚 牛丼 㐂㐂屋 (3.41)</a>
+                        <a href="https://tabelog.com/tw/saitama/A1101/A110102/11003959/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍱 鰻 むさし乃 (4.02)</a>
+                        <a href="https://tabelog.com/tw/saitama/A1101/A110102/11050911/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">☕ ANOTHER PLACE CAFÉ (3.50)</a>
+                        <a href="https://tabelog.com/saitama/A1101/A110102/11028957/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🥐 KU~NERUbakery (3.70)</a>
+                        <a href="https://tabelog.com/tokyo/A1322/A132205/13032298/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍲 柿天舍 (3.48)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1305/A130501/13187796/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍲 人形町今半 壽喜燒 (3.60)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1305/A130501/13283190/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍜 宍道湖蜆中華蕎麥 琥珀 (3.74)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1322/A132203/13266841/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍜 支那ソバ おさだ (3.81)</a>
+                        <a href="https://tabelog.com/tw/tokyo/A1322/A132203/13110008/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍰 Patisserie Materiel (3.81)</a>
+                        <a href="https://tabelog.com/tw/chiba/A1204/A120401/12058358/" target="_blank" class="block py-1.5 px-2 text-gray-600 dark:text-gray-300 hover:text-tokyo-red">🍣 すし京辰 (3.18)</a>
+                    </div>
+                </div>
+
+                <a href="https://www.airbnb.com.hk/rooms/912618396435484170?guests=1&adults=1&s=67&unique_share_id=c48cfd75-8954-41da-b00b-15d6e9aef960" target="_blank" onclick="toggleDrawer(false);" class="w-full text-left py-2.5 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 font-bold flex items-center justify-between text-gray-900 dark:text-white">
+                    <span>🏠 東武練馬 Airbnb 專頁</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                <button onclick="openTransitModal(); toggleDrawer(false);" class="w-full text-left py-2.5 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 font-bold flex items-center justify-between">
+                    <span>🚃 交通規劃專頁</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </button>
+            </div>
+
+            <!-- Appearance Settings -->
+            <div class="py-3 border-b border-gray-200 dark:border-slate-700 space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-2">文字大小 (Font Size)</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setFontSize('sm')" id="btnFontSm" class="py-2 rounded-xl border border-gray-300 dark:border-slate-600 font-bold text-center flex flex-col items-center justify-center">
+                            <span class="text-[11px] leading-none">A</span>
+                            <span class="text-[9px] text-gray-400 mt-1">細</span>
+                        </button>
+                        <button onclick="setFontSize('md')" id="btnFontMd" class="py-2 rounded-xl border border-gray-300 dark:border-slate-600 font-bold text-center flex flex-col items-center justify-center">
+                            <span class="text-sm leading-none">A</span>
+                            <span class="text-[9px] text-gray-400 mt-1">中</span>
+                        </button>
+                        <button onclick="setFontSize('lg')" id="btnFontLg" class="py-2 rounded-xl border border-gray-300 dark:border-slate-600 font-bold text-center flex flex-col items-center justify-center">
+                            <span class="text-lg leading-none">A</span>
+                            <span class="text-[9px] text-gray-400 mt-1">大</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-2">顯示模式</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setTheme('light')" id="btnThemeLight" class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-gray-300 dark:border-slate-600 text-xs font-bold">
+                            <i class="fa-solid fa-sun text-amber-500"></i> 日光模式
+                        </button>
+                        <button onclick="setTheme('dark')" id="btnThemeDark" class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-gray-300 dark:border-slate-600 text-xs font-bold">
+                            <i class="fa-solid fa-moon text-indigo-400"></i> 暗夜模式
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-5 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
+            <button onclick="downloadSelf()" class="w-full bg-tokyo-red hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg btn-press">
+                <i class="fa-solid fa-file-arrow-down text-base"></i>
+                <span>下載完整 HTML 到手機</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 glass-nav bg-white/90 dark:bg-slate-800/90 border-b border-gray-200 dark:border-slate-700 shadow-sm px-4 py-3">
+        <div class="max-w-3xl mx-auto">
+            <div class="flex items-center justify-between">
+                <div onclick="switchDay('all')" class="flex items-center gap-2.5 cursor-pointer btn-press">
+                    <span class="text-3xl">🍁</span>
+                    <div>
+                        <h1 class="text-base font-black tracking-wide leading-tight text-gray-900 dark:text-white">東京秋漫遊 2026</h1>
+                        <p class="text-[11px] font-medium text-gray-500 dark:text-gray-400">11/24 - 12/04 ‧ 11 天隨身手冊</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-1.5">
+                    <button onclick="forceChrome()" class="bg-amber-500 hover:bg-amber-600 text-white text-[11px] px-2.5 py-1.5 rounded-xl font-bold shadow-sm btn-press flex items-center gap-1">
+                        <i class="fa-brands fa-chrome"></i>
+                        <span>Chrome</span>
+                    </button>
+                    <button onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-xl transition-all">
+                        <i class="fa-solid fa-sun text-lg dark:hidden text-amber-500"></i>
+                        <i class="fa-solid fa-moon text-lg hidden dark:block text-indigo-300"></i>
+                    </button>
+                    <button onclick="toggleDrawer(true)" class="p-2 bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-white rounded-xl border border-gray-200 dark:border-slate-600 shadow-sm btn-press">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 天氣欄 -->
+            <div class="mt-2.5">
+                <div class="weather-card-inline flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="weatherIcon" class="text-lg">☀️</span>
+                        <span id="weatherTemp" class="text-xs font-black">--°C</span>
+                        <span id="weatherLoc" class="text-[11px] opacity-90 font-medium">📍 讀取 GPS 中...</span>
+                    </div>
+                    <button onclick="getGPSWeather()" class="bg-white/20 hover:bg-white/30 text-white text-[10px] font-bold px-2 py-0.5 rounded-md border border-white/30 btn-press">
+                        🔄 更新位置
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="mt-2.5 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="搜尋景點、美食（如：鰻魚、銀杏、十社）..." 
+                    class="w-full bg-gray-100 dark:bg-slate-900 text-gray-900 dark:text-white pl-9 pr-8 py-2 rounded-xl border border-gray-200 dark:border-slate-700 focus:outline-none focus:border-tokyo-red transition-all text-xs sm:text-sm">
+                <button id="clearSearch" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Category Filter Scroll -->
+            <div class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar mt-2.5 pb-0.5 drag-scroll">
+                <button onclick="filterCategory('all')" class="cat-btn active bg-tokyo-red text-white text-xs px-3 py-1 rounded-full font-bold whitespace-nowrap shadow-sm">全類別</button>
+                <button onclick="filterCategory('shrine')" class="cat-btn bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs px-3 py-1 rounded-full whitespace-nowrap font-medium">⛩️ 神社十社</button>
+                <button onclick="filterCategory('food')" class="cat-btn bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs px-3 py-1 rounded-full whitespace-nowrap font-medium">🍱 美食百名店</button>
+                <button onclick="filterCategory('nature')" class="cat-btn bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs px-3 py-1 rounded-full whitespace-nowrap font-medium">🍁 紅葉銀杏</button>
+                <button onclick="filterCategory('onsen')" class="cat-btn bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs px-3 py-1 rounded-full whitespace-nowrap font-medium">♨️ 名湯溫泉</button>
+                <button onclick="filterCategory('shop')" class="cat-btn bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 text-xs px-3 py-1 rounded-full whitespace-nowrap font-medium">🛍️ 購物逛街</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Horizontal Day Navigation Bar -->
+    <nav class="sticky top-[200px] z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 py-2 px-3">
+        <div class="max-w-3xl mx-auto flex items-center gap-2 overflow-x-auto hide-scrollbar drag-scroll" id="dayNavContainer"></div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-3xl mx-auto px-3.5 pt-4 space-y-6" id="itineraryContainer"></main>
+
+    <!-- Bottom Mobile Float Control Bar -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border border-gray-200 dark:border-slate-700 rounded-full px-4 py-2 shadow-xl flex items-center gap-4 text-xs text-gray-700 dark:text-gray-200">
+        <button onclick="scrollToTop()" class="flex flex-col items-center gap-0.5 hover:text-tokyo-red btn-press">
+            <i class="fa-solid fa-arrow-up text-sm text-tokyo-red"></i>
+            <span class="font-bold text-[10px]">頂部</span>
+        </button>
+        <div class="h-4 w-px bg-gray-300 dark:bg-slate-700"></div>
+        <button onclick="goBack()" class="flex flex-col items-center gap-0.5 hover:text-tokyo-red btn-press">
+            <i class="fa-solid fa-chevron-left text-sm text-blue-500"></i>
+            <span class="font-bold text-[10px]">上一頁</span>
+        </button>
+        <div class="h-4 w-px bg-gray-300 dark:bg-slate-700"></div>
+        <button onclick="switchDay('all')" class="flex flex-col items-center gap-0.5 hover:text-tokyo-red btn-press">
+            <i class="fa-solid fa-house text-sm text-amber-500"></i>
+            <span class="font-bold text-[10px]">總覽</span>
+        </button>
+        <div class="h-4 w-px bg-gray-300 dark:bg-slate-700"></div>
+        <button onclick="downloadSelf()" class="flex flex-col items-center gap-0.5 hover:text-tokyo-red btn-press">
+            <i class="fa-solid fa-download text-sm text-emerald-500"></i>
+            <span class="font-bold text-[10px]">離線存檔</span>
+        </button>
+    </div>
+
+    <script>
+        // 路徑轉義處理（確保本地檔名的空格與特殊字元能被正確載入）
+        function formatImagePath(path) {
+            if (!path) return '';
+            return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+        }
+
+        // 東京十社資料庫
+        const shrinesData = [
+            {
+                id: 1, name: "富岡八幡宮", shortName: "富岡八幡宮",
+                img: "Tokyo 2026/Day3/Day3富岡八幡宮.jpg",
+                history: "創建於 1627 年，為江戶最大的八幡宮，歷史悠久，深受德川將軍家與庶民崇敬。",
+                benefits: "開運厄除、勝運招福、商賣繁盛、交通安全",
+                scale: "江東區門前仲町總社，境內廣闊，設有大鳥居、橫綱力士碑及伊能忠敬銅像。",
+                env: "位處門前仲町下町商圈，週邊美食林立，鄰近清澄庭園與木場公園。",
+                highlights: "日本第一大神輿（黃金鳳凰裝飾）、橫綱力士碑（相撲發祥地歷史）、伊能忠敬出發地標。",
+                hours: "09:00 - 17:00 (授與所/社務所)",
+                souvenirs: "橫綱相撲勝運御守、黃金鳳凰御朱印帳、開運厄除守"
+            },
+            {
+                id: 2, name: "龜戶天神社", shortName: "龜戶天神社",
+                img: "Tokyo 2026/Day3/Day3龜戶天神社.jpg",
+                history: "奉祀學問之神菅原道真公，1662 年由太宰府天滿宮分靈建立，為關東天滿宮之首。",
+                benefits: "考試合格、學業成就、家內安全、立身出世",
+                scale: "以心字池與朱紅色太鼓橋（男橋、女橋）為中心，境內佈滿藤架與梅林。",
+                env: "位於江東區龜戶老街，可遠眺東京晴空塔 (Tokyo Skytree)，交織古今對照美景。",
+                highlights: "朱紅太鼓橋倒映心字池、藤花季與梅花季美景、神牛像（摸牛頭求智慧）。",
+                hours: "08:30 - 17:00",
+                souvenirs: "學業成就御守、鷽（鷽鳥換災）木雕吉祥物、晴空塔限定版繪馬"
+            },
+            {
+                id: 3, name: "神田神社 (神田明神)", shortName: "神田神社",
+                img: "Tokyo 2026/Day5/Day5神田神社.jpg",
+                history: "擁有近 1300 年歷史（天平2年創設），鎮守江戶總總鎮守，近代亦為秋葉原總鎮守。",
+                benefits: "商賣繁盛、事業繁榮、結緣勝運、IT資訊安全",
+                scale: "朱漆總檜造本殿氣派輝煌，結合古典神社建築與現代文化會館文化。",
+                env: "鄰近御茶之水與秋葉原，結合傳統神道文化與動漫次文化。",
+                highlights: "日本三大祭之一神田祭發源地、動漫 LoveLive! 聖地、IT 御守授與所。",
+                hours: "09:00 - 17:00",
+                souvenirs: "IT 安全御守 (晶片造型)、獅子舞神籤、勝守"
+            },
+            {
+                id: 4, name: "日枝神社", shortName: "日枝神社",
+                img: "Tokyo 2026/Day5/Day5日枝神社.jpg",
+                history: "鎮守德川將軍家城內（江戶城鎮守），皇居（舊江戶城）之裏鬼門守護神。",
+                benefits: "安產祈願、良緣結緣、商賣繁盛、厄除開運",
+                scale: "位於赤坂丘陵高地，擁有罕見的手扶梯參道與連續朱紅山王鳥居。",
+                env: "座落於赤坂與永田町政治商業中心，現代高樓大景包圍下的綠洲神域。",
+                highlights: "千本鳥居斜坡階梯、神猿（Masaru）神使雕像（象徵驅邪與勝運）。",
+                hours: "08:00 - 16:00",
+                souvenirs: "神猿御守（子猴/親猴）、山王祭紀念御朱印帳、安產御守"
+            },
+            {
+                id: 5, name: "赤坂冰川神社", shortName: "赤坂冰川神社",
+                img: "Tokyo 2026/Day5/Day5赤坂冰川神社.jpg",
+                history: "享保15年（1730年）由八代將軍德川吉宗建立，社殿幸運躲過江戶大火與第二次世界大戰空襲。",
+                benefits: "結緣 (良緣)、夫婦圓滿、厄除開運",
+                scale: "保存享保年間建立的東京都指定有形文化財社殿，境內樹齡數百年古木參天。",
+                env: "位於赤坂住宅區，幽靜古樸，四季擁有鬱鬱蔥蔥的綠意林蔭。",
+                highlights: "400年銀杏大木、享保時代古造社殿、良緣祈願祭（限量結緣御守）。",
+                hours: "09:00 - 17:00",
+                souvenirs: "櫻花土鈴御守、花福鈴、結緣御守"
+            },
+            {
+                id: 6, name: "根津神社", shortName: "根津神社",
+                img: "Tokyo 2026/Day6/Day6根津神社.jpg",
+                history: "相傳由日本武尊創設，寶永3年（1706年）由五代將軍德川綱吉重建，全境獲指定為重要文化財。",
+                benefits: "災厄消除、良緣成就、學業上進、商賣繁盛",
+                scale: "占地極廣，擁有完整的權現造社殿、樓門、唐門以及著名的大型杜鵑花園。",
+                env: "位處文京區谷根千下町懷舊街區，文人夏目漱石與森鷗外曾常造訪。",
+                highlights: "乙女稻荷神社千本鳥居、杜鵑花季（約100種3000株杜鵑）、文豪休憩之石。",
+                hours: "09:00 - 17:00",
+                souvenirs: "乙女鳥居御守、杜鵑花繪馬、月替御朱印"
+            },
+            {
+                id: 7, name: "白山神社", shortName: "白山神社",
+                img: "Tokyo 2026/Day6/Day6白山神社.jpg",
+                history: "創設於天曆2年（948年），為加賀白山神社之分靈，五代將軍綱吉及其生母桂昌院極力崇敬。",
+                benefits: "復緣結緣、齒痛平癒、家內安全、商賣繁盛",
+                scale: "精緻寧靜的小型下町神社，境內與鄰近白山公園相連。",
+                env: "位處文京區白山靜謐住宅區，附近學府林立，文教氣息濃厚。",
+                highlights: "東京紫陽花祭（繡球花季約3000株綻放）、孫中山先生座觀石。",
+                hours: "09:00 - 16:00",
+                souvenirs: "紫陽花花守、齒痛祈願御守、復緣御守"
+            },
+            {
+                id: 8, name: "王子神社", shortName: "王子神社",
+                img: "Tokyo 2026/Day6/Day6王子神社.jpeg",
+                history: "元亨2年（1322年）由領主豐島氏由紀州熊野三山分靈建立，此地「王子」地名之起源。",
+                benefits: "開運除災、子育安產、家內安全、運氣上升",
+                scale: "座落於高台，境內有一棵樹齡逾 600 年的大銀杏天然紀念物。",
+                env: "緊鄰音無親水公園與飛鳥山公園，自然溪流與秋季綠意盎然。",
+                highlights: "東京都天然紀念物大銀杏樹、王子田樂舞（日本三大田樂舞之一）。",
+                hours: "08:30 - 16:30",
+                souvenirs: "開運槍守（槍形御守）、銀杏御守、安產守"
+            },
+            {
+                id: 9, name: "芝大神宮", shortName: "芝大神宮",
+                img: "Tokyo 2026/Day8/Day8芝大神宮.jpg",
+                history: "創設於寬弘2年（1005年），主祭天照大御神，古稱「關東伊勢神宮」，深受江戶庶民愛戴。",
+                benefits: "良緣成就、商賣繁盛、千客萬來、金運上升",
+                scale: "都會型繁華神社，階梯上設有巨大白木鳥居與精緻花崗岩參道。",
+                env: "位處港區芝公園與大門商務區，遠眺東京鐵塔，古今相映。",
+                highlights: "江戶時代「生姜市」傳統、千木箱（富貴象徵）、歌舞伎「神明惠和合取組」舞台。",
+                hours: "09:00 - 17:00",
+                souvenirs: "千木箱吉祥物（幸福富貴）、強運御守（男女顏色不同）、生姜御守"
+            },
+            {
+                id: 10, name: "品川神社", shortName: "品川神社",
+                img: "Tokyo 2026/Day8/Day8品川神社.jpg",
+                history: "文治3年（1187年）由源賴朝創設，祈求海上交通安全，源德川家康出陣關原之戰前亦曾參拜。",
+                benefits: "金運隆昌、交通安全、勝運祈願、開運招福",
+                scale: "擁有雙龍鳥居（昇龍與降龍雕刻），境內設有東京都內最大的富士塚（品川富士）。",
+                env: "位於京濱急行新馬場站旁，昔日舊東海道第一宿場町品川宿鎮守。",
+                highlights: "雙龍石鳥居（全東京僅三座）、登品川富士塚（登頂等同登富士山功德）、阿那稻荷神社洗錢泉水。",
+                hours: "09:00 - 17:00",
+                souvenirs: "雙龍勝守、洗錢一粒萬倍御守、富士山登山御朱印"
+            }
+        ];
+
+        // 行程資料庫
+        const itineraryData = [
+            {
+                day: 1, date: "11/24", week: "Tue", title: "夜飛離港 成田啟程",
+                summary: "離港夜飛抵達日本，展開 11 天東京周邊秋季之旅！", tag: "transport",
+                items: [
+                    { 
+                        time: "22:00 - 23:30", 
+                        spot: "A12 機場巴士", 
+                        category: "transport", 
+                        desc: "由家中出發，搭乘 A12 機場巴士直達香港國際機場。", 
+                        googleMapUrl: "https://maps.app.goo.gl/GdYZMvFxgp6x3RRNA",
+                        tabelogUrl: "",
+                        officialUrl: "https://mobile.citybus.com.hk/nwp3/?f=1&ds=A12&dsmode=1&l=0",
+                        appScheme: "citybus://",
+                        transitUrl: "", 
+                        icon: "🚌" 
+                    },
+                    { 
+                        time: "24:00 前", 
+                        spot: "香港國際機場 T2 (HKG)", 
+                        category: "transport", 
+                        desc: "辦理香港快運 UO854 航班 Check-in 與託運行李手續。", 
+                        googleMapUrl: "https://www.google.com/maps/place/%E6%96%B0%E7%95%8C%E8%B5%A4%E9%B1%B2%E8%A7%92+Sky+Plaza+Rd,+1%E8%99%9F%E9%A6%99%E6%B8%AF%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4%E4%BA%8C%E8%99%9F%E5%AE%A2%E9%81%8B%E5%A4%A7%E6%A8%93/@22.3169602,113.935825,17z/",
+                        tabelogUrl: "",
+                        officialUrl: "https://www.hkexpress.com/zh-HK/Plan/Travel/HKIA-T2",
+                        transitUrl: "", 
+                        icon: "🛫" 
+                    },
+                    { 
+                        time: "02:00 (11/25)", 
+                        spot: "香港快運 UO854 航班", 
+                        category: "transport", 
+                        desc: "起飛前往東京成田國際機場 T2 (NRT)，在機上休息補眠。", 
+                        googleMapUrl: "", 
+                        tabelogUrl: "",
+                        officialUrl: "https://mybooking.hkexpress.com/zh-HK/manage-my-booking/my-trips/SYGYFG",
+                        appScheme: "hkexpress://",
+                        transitUrl: "",
+                        icon: "✈️" 
+                    }
+                ]
+            },
+            {
+                day: 2, date: "11/25", week: "Wed", title: "池袋Toriton回転壽司 Airbnb補眠 AEON購物 炸豬排飯",
+                summary: "抵達成田機場後搭車前往池袋，排隊取票享用超高人氣 Triton 迴轉壽司，入駐 Airbnb 補眠休息，晚間逛板橋 AEON 採買及享用在地炸豬排定食。", tag: "food",
+                items: [
+                    { 
+                        time: "07:10 - 10:10", 
+                        spot: "成田國際機場 T2 (NRT)", 
+                        category: "transport", 
+                        desc: "成田機場 T2 入境提取行李後搭車前往池袋。", 
+                        googleMapUrl: "https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+2", 
+                        officialUrl: "https://www.limousinebus.co.jp/guide/timetable/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC%EF%BC%92%E3%83%80%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&to=%E6%B1%A0%E8%A2%8B&y=2026&m=11&d=25&hh=08&m1=0&m2=0",
+                        icon: "🛬" 
+                    },
+                    { 
+                        time: "11:00 - 13:00", 
+                        spot: "回転寿し トリトン Toriton (東武池袋店)", 
+                        category: "food", 
+                        desc: "抵達東武百貨 11F 取票現場排隊（11:00開門），享用第 1/2 round 迴轉壽司。", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/2TrCKmxek52ZuxFN7",
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1305/A130501/13192558/", 
+                        officialUrl: "https://toriton-kita1.jp/shop/ikebukuro/", 
+                        transitUrl: "", 
+                        img: "Tokyo 2026/Day2/Day2回転寿し トリトン(東武池袋店).jpg", 
+                        icon: "🍣" 
+                    },
+                    { 
+                        time: "14:00 - 18:00", 
+                        spot: "東武練馬 Airbnb", 
+                        category: "hotel", 
+                        desc: "辦理 Check-in 入住，午睡補眠。", 
+                        googleMapUrl: "https://maps.app.goo.gl/FjchUMbuHZKu8f7u9",
+                        officialUrl: "https://www.airbnb.com.hk/rooms/912618396435484170?guests=1&adults=1&s=67&unique_share_id=c48cfd75-8954-41da-b00b-15d6e9aef960",
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=11&d=25&hh=13&m1=30&m2=0",
+                        icon: "🛏️" 
+                    },
+                    { 
+                        time: "18:00 - 19:30", 
+                        spot: "板橋 AEON Shopping Mall", 
+                        category: "shop", 
+                        desc: "採買在地用品水果小食。重點採購：1F AEON STYLE 超市、4F 3COINS+plus。", 
+                        googleMapUrl: "https://maps.app.goo.gl/eGpMNbDnYMqRawMWA",
+                        officialUrl: "https://www.aeon.jp/sc/itabashi/", 
+                        transitUrl: "",
+                        img: "Tokyo 2026/Day2/Day2板橋AEON.jpg", 
+                        icon: "🛍️" 
+                    },
+                    { 
+                        time: "19:45", 
+                        spot: "米とひなた 東武練馬店", 
+                        category: "food", 
+                        desc: "日式炸豬排定食街坊高分店。", 
+                        googleMapUrl: "https://maps.app.goo.gl/ydtqSmE2UZNBREaN6",
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1322/A132203/13317973/", 
+                        officialUrl: "https://kometo-hinata.com/food-menu/", 
+                        transitUrl: "",
+                        img: "Tokyo 2026/Day2/Day2米とひなた東武練馬店.jpg", 
+                        icon: "🍱" 
+                    }
+                ]
+            },
+            {
+                day: 3, date: "11/26", week: "Thu", title: "東京十社 (1-2) 江東區 野生鮪魚布丁咖啡青鰻坂東太郎",
+                summary: "野生本鮪刺身定食、富岡八幡宮參拜、門仲銅鑼山、木場公園銀杏、東京都現代美術館、珈琲道場侍輕食、龜戶天神社、龜戶下町商場散策、八兵衛頂級青鰻飯。", tag: "shrine",
+                items: [
+                    { 
+                        time: "10:00 - 11:15", 
+                        spot: "天然本マグロ専門店 司", 
+                        category: "food", 
+                        desc: "野生本鮪魚刺身定食（大拖羅、中拖羅、赤身三拼 JPY 2,200）。（10:30-14:30 營業，休三六日）", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/aEoNG8zZRGzg6xDYA", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1313/A131303/13292385/", 
+                        officialUrl: "https://www.instagram.com/lilymarketshop?igsh=NTc4MTIwNjQ2YQ%3D%3D", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E7%AF%80%E7%94%B0&y=2026&m=11&d=26&hh=09&m1=15&m2=0",
+                        img: "Tokyo 2026/Day3/Day3天然本マグロ専門店司.jpg", 
+                        icon: "🐟" 
+                    },
+                    { 
+                        time: "11:30 - 12:30", 
+                        spot: "富岡八幡宮", 
+                        category: "shrine", 
+                        desc: "參拜、購買大小繪馬、御朱印帳，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 1/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/y5gyGeRPSuxcjWRN7", 
+                        tabelogUrl: "", 
+                        officialUrl: "http://www.tomiokahachimangu.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E7%AF%80%E7%94%B0&to=%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA&y=2026&m=11&d=26&hh=11&m1=15&m2=0",
+                        img: "Tokyo 2026/Day3/Day3富岡八幡宮.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "12:30", 
+                        spot: "門仲銅鑼燒 銅鑼山 (門仲どらやき どら山)", 
+                        category: "food", 
+                        desc: "不同口味銅鑼燒現食及購買獨立包裝。", 
+                        badge: "Tabelog 3.54", 
+                        googleMapUrl: "https://maps.app.goo.gl/KUvnutV76nHpCyhp8", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1313/A131303/13272933/", 
+                        officialUrl: "https://www.instagram.com/dorayama_jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%AF%8C%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE&to=%E9%96%80%E4%BB%B2%E3%81%A9%E3%82%89%E3%82%84%E3%81%BE&y=2026&m=11&d=26&hh=12&m1=25&m2=0",
+                        img: "Tokyo 2026/Day3/Day3門仲どらやき どら山.jpg", 
+                        icon: "🍡" 
+                    },
+                    { 
+                        time: "12:45", 
+                        spot: "木場公園銀杏紅葉", 
+                        category: "nature", 
+                        desc: "公園散策由南往北行至美術館。", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/fSBfq1kG3u1Xs7F67", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.tokyo-park.or.jp/park/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%96%80%E5%89%8D%E4%BB%B2%E7%94%BA&to=%E6%9C%A8%E5%A0%B4%E5%85%AC%E5%9C%92&y=2026&m=11&d=26&hh=12&m1=40&m2=0",
+                        img: "Tokyo 2026/Day3/Day3木場公園.jpg", 
+                        icon: "🍁" 
+                    },
+                    { 
+                        time: "13:30", 
+                        spot: "東京都現代美術館 MOT", 
+                        category: "nature", 
+                        desc: "觀賞內外建築設計。", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/MNUs4ac8NoUmhErC9", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.mot-art-museum.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9C%A8%E5%A0%B4%E5%85%AC%E5%9C%92&to=%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%8F%BE%E4%BB%A3%E7%BE%8E%E8%A1%93%E9%A4%A8&y=2026&m=11&d=26&hh=13&m1=25&m2=0",
+                        img: "Tokyo 2026/Day3/Day3東京都現代美術館MOT.jpg", 
+                        icon: "🖼️" 
+                    },
+                    { 
+                        time: "14:30", 
+                        spot: "珈琲道場 侍", 
+                        category: "food", 
+                        desc: "輕食午餐。薄餅多士、肉桂多士、布丁蛋糕，咖啡。", 
+                        badge: "Tabelog 3.71 百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/GBzXvJQcWa88Lcng6", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1312/A131202/13018018/", 
+                        officialUrl: "https://www.samurai-cafe.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B8%85%E7%99%BD%E6%B2%B3&to=%E4%BA%80%E6%88%B6&y=2026&m=11&d=26&hh=14&m1=15&m2=0",
+                        img: "Tokyo 2026/Day3/Day3珈琲道場侍.jpg", 
+                        icon: "☕" 
+                    },
+                    { 
+                        time: "15:45", 
+                        spot: "龜戶天神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。（社務所至 5pm）", 
+                        badge: "十社巡禮 2/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/rbV6WDoEDkHzCwvA8", 
+                        tabelogUrl: "", 
+                        officialUrl: "http://kameidotenjin.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E4%BA%80%E6%88%B6&to=%E4%BA%80%E6%88%B6%E5%A4%A9%E7%A5%9E%E7%A4%BE&y=2026&m=11&d=26&hh=15&m1=30&m2=0",
+                        img: "Tokyo 2026/Day3/Day3龜戶天神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "16:30", 
+                        spot: "龜戶下町商場散策", 
+                        category: "shop", 
+                        desc: "附近老街及車站商場 Kameido Clock 閒逛。", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/bWu2XrcLdjxwhaMo8", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.kameido-clock.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E4%BA%80%E6%88%B6%E5%A4%A9%E7%A5%9E%E7%A4%BE&to=KAMEIDO+CLOCK&y=2026&m=11&d=26&hh=16&m1=25&m2=0",
+                        img: "Tokyo 2026/Day3/Day3kameidoclock.jpg", 
+                        icon: "🛍️" 
+                    },
+                    { 
+                        time: "18:00", 
+                        spot: "八兵衛 八べえ", 
+                        category: "food", 
+                        desc: "青鰻飯 JPY 5,940，Tabelog 提早預約。（11:30-15:00, 17:00-20:30，休一）", 
+                        badge: "Tabelog 3.65 青鰻坂東太郎", 
+                        googleMapUrl: "https://maps.app.goo.gl/FxgeMVs1bzvWrH7EA", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1312/A131202/13056800/", 
+                        officialUrl: "https://hachibee.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=KAMEIDO+CLOCK&to=%E5%85%AB%E3%81%B9%E3%81%88&y=2026&m=11&d=26&hh=17&m1=45&m2=0",
+                        img: "Tokyo 2026/Day3/Day3八兵衛.jpg", 
+                        icon: "🍱" 
+                    }
+                ]
+            },
+            {
+                day: 4, date: "11/27", week: "Fri", title: "奧多摩 森林浴 立川昭和紀念公園 秋の夜散步",
+                summary: "奧多摩森林浴、小河內水壩與吊橋景致、鳩之巢古早味釜飯、澤乃井園清流試酒散策、立川昭和紀念公園夜間點燈銀杏並木、回東武練馬 AEON 買和牛享用和牛火鍋。", tag: "nature",
+                items: [
+                    { 
+                        time: "10:00", 
+                        spot: "奧多摩站", 
+                        category: "nature", 
+                        desc: "車站週邊及短程西東京巴士。約 2 小時車程抵達奧多摩。走訪小河內水壩、水與綠之親近館、氷川小橋與登計橋。（麦山浮橋視乎開放狀況，現關閉中）", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/6H9RNZ5kLLm8jCXB6", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1330/A133004/R1994/rstLst/?SrtT=rt&LstRange=SF", 
+                        officialUrl: "https://www.japan.travel/hk/spot/2179/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E5%A5%A5%E5%A4%9A%E6%94%AF&y=2026&m=11&d=27&hh=07&m1=45&m2=0",
+                        img: "Tokyo 2026/Day4/Day4奧多摩.jpg", 
+                        icon: "🌲" 
+                    },
+                    { 
+                        time: "13:00", 
+                        spot: "鳩の巣釜めし", 
+                        category: "food", 
+                        desc: "享用在地古早味熱騰騰的山林特色釜飯。（10:30-17:00 營業，休三）", 
+                        badge: "Tabelog 3.40", 
+                        googleMapUrl: "https://maps.app.goo.gl/Mc7XPRzMXd91hwF39", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1330/A133004/13045241/", 
+                        officialUrl: "http://www.hatonosukamameshi.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%A5%A5%E5%A4%9A%E6%94%AF&to=%E9%B3%A0%E3%81%AE%E5%B7%A3&y=2026&m=11&d=27&hh=12&m1=40&m2=0",
+                        img: "Tokyo 2026/Day4/Day4鳩の巣釜めし.jpg", 
+                        icon: "🍲" 
+                    },
+                    { 
+                        time: "14:00 - 17:00", 
+                        spot: "鳩之巢吊橋 ‧ 御岳渓谷 ‧ 澤乃井園清流ガーデン", 
+                        category: "nature", 
+                        desc: "漫步鳩之巢吊橋與御岳溪谷步道，抵達澤乃井園清流花園，體驗試酒 Café 與採買在地手信。", 
+                        badge: "Tabelog 3.46 試酒花園", 
+                        googleMapUrl: "https://maps.app.goo.gl/6tH11s3sVi35ycog6", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1330/A133003/13057838/", 
+                        officialUrl: "http://www.hatonosukamameshi.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%B3%A0%E3%81%AE%E5%B7%A3&to=%E6%B2%A2%E4%B9%83%E4%BA%95%E5%9C%92&y=2026&m=11&d=27&hh=14&m1=00&m2=0",
+                        img: "Tokyo 2026/Day4/Day4澤乃井園清流.jpg", 
+                        icon: "🍶" 
+                    },
+                    { 
+                        time: "18:15", 
+                        spot: "立川站 國立昭和紀念公園", 
+                        category: "nature", 
+                        desc: "園區特別限定活動「秋の夜散步」，欣賞浪漫黃金銀杏並木夜間點燈景致。", 
+                        badge: "秋の夜散步 點燈", 
+                        googleMapUrl: "https://maps.app.goo.gl/X1VVjKjAH6ESWdkb6", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.showakinen-koen.jp/autumn-night-walk/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B2%A2%E4%B9%83%E4%BA%95&to=%E7%AB%8B%E5%B7%9D&y=2026&m=11&d=27&hh=17&m1=10&m2=0",
+                        img: "Tokyo 2026/Day4/Day4國立昭和紀念公園.jpeg", 
+                        icon: "✨" 
+                    },
+                    { 
+                        time: "20:30", 
+                        spot: "板橋 AEON 超市", 
+                        category: "shop", 
+                        desc: "返回東武練馬 AEON 超市採買頂級日本和牛與烏冬，返 Airbnb 享用溫馨和牛火鍋晚餐。", 
+                        badge: "和牛火鍋採買", 
+                        googleMapUrl: "https://maps.app.goo.gl/eGpMNbDnYMqRawMWA", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.aeon.jp/sc/itabashi/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E7%AB%8B%E5%B7%9D&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=11&d=27&hh=19&m1=45&m2=0",
+                        icon: "🍲" 
+                    }
+                ]
+            },
+            {
+                day: 5, date: "11/28", week: "Sat", title: "東京十社 (3-5) 千代田/港區 國立新美術館羅浮宮展百名店Cafe燒肉",
+                summary: "參拜神田神社、自家焙煎珈琲みじんこ輕食午餐、參拜日枝神社與赤坂冰川神社、國立新美術館羅浮宮特展，晚間享用 Yucchan 頂級和牛燒肉與冷麵。", tag: "shrine",
+                items: [
+                    { 
+                        time: "11:00", 
+                        spot: "神田神社 (神田明神)", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 3/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/hK8uFQyHppsHB7kdA", 
+                        tabelogUrl: "", 
+                        officialUrl: "http://www.kandamyoujin.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E5%BE%A1%E8%8C%B6%E3%81%AE%E6%B0%B4&y=2026&m=11&d=28&hh=10&m1=15&m2=0",
+                        img: "Tokyo 2026/Day5/Day5神田神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "12:00", 
+                        spot: "自家焙煎珈琲 みじんこ", 
+                        category: "food", 
+                        desc: "三文治蛋糕咖啡店。（Tabelog Cafe 百名店，提早一個月網上免費預約）", 
+                        badge: "Tabelog Cafe 百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/tjzq7UKvkzd98EUb6", 
+                        tabelogUrl: "https://tabelog.com/tokyo/A1310/A131002/13126204/", 
+                        officialUrl: "https://mijinco-coffee.com/menu/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E7%A5%9E%E7%A4%BE&to=%E3%81%BF%E3%81%98%E3%82%93%E3%81%93&y=2026&m=11&d=28&hh=11&m1=50&m2=0",
+                        img: "Tokyo 2026/Day5/Day5自家焙煎珈琲.jpg", 
+                        icon: "🥪" 
+                    },
+                    { 
+                        time: "13:30", 
+                        spot: "日枝神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 4/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/rPGgCpF4z1fKWZuq8", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.hiejinja.net/index.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B9%AF%E5%B3%B6%E8%81%96%E5%A0%82&to=%E8%B5%A4%E5%9D%82%E8%A6%8B%E4%BB%98&y=2026&m=11&d=28&hh=13&m1=10&m2=0",
+                        img: "Tokyo 2026/Day5/Day5日枝神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "14:30", 
+                        spot: "赤坂冰川神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 5/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/WxZdxhaoV8USrQ5e8", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.akasakahikawa.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%97%A5%E6%9E%9D%E7%A5%9E%E7%A4%BE&to=%E8%B5%A4%E5%9D%82%E6%B0%B7%E5%B7%9D%E7%A5%9E%E7%A4%BE&y=2026&m=11&d=28&hh=14&m1=15&m2=0",
+                        img: "Tokyo 2026/Day5/Day5赤坂冰川神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "15:30", 
+                        spot: "國立新美術館", 
+                        category: "nature", 
+                        desc: "參觀【羅浮宮特展】（已預訂線上門票），週五、六延長開放至 20:00 閉館。", 
+                        badge: "羅浮宮特展", 
+                        googleMapUrl: "https://maps.app.goo.gl/htUSVqL6wtfB6MK28", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.nact.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%B5%A4%E5%9D%82%E6%B0%B7%E5%B7%9D%E7%A5%9E%E7%A4%BE&to=%E5%9B%BD%E7%AB%8B%E6%96%B0%E7%BE%8E%E8%A1%93%E9%A4%A8&y=2026&m=11&d=28&hh=15&m1=15&m2=0",
+                        img: "Tokyo 2026/Day5/Day5國立新美術館.jpg", 
+                        icon: "🖼️" 
+                    },
+                    { 
+                        time: "19:00 - 19:30", 
+                        spot: "焼肉 冷麺 ユッチャン。", 
+                        category: "food", 
+                        desc: "享用頂級燒肉與葛根冰涼冷麵。（Tabelog 3.65 燒肉百名店，已預約 3 位）", 
+                        badge: "Tabelog 3.65 燒肉百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/nXc3Lw69DwsWnVCe9", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1307/A130701/13230170/", 
+                        officialUrl: "https://yuchuntokyo.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%9B%BD%E7%AB%8B%E6%96%B0%E7%BE%8E%E8%A1%93%E9%A4%A8&to=%E5%85%AD%E6%9C%A8%E6%9C%A8&y=2026&m=11&d=28&hh=18&m1=45&m2=0",
+                        img: "Tokyo 2026/Day5/Day5焼肉冷麺.jpg", 
+                        icon: "🥩" 
+                    }
+                ]
+            },
+            {
+                day: 6, date: "11/29", week: "Sun", title: "東京十社 (6-8) 東大銀杏並木 蕎麥拉麵米芝蓮百名店",
+                summary: "參拜根津神社、手打ちそば根津鷹匠二色蕎麥麵、芋甚日式雪糕甜品、東京大學百年大銀杏並木大道散策、參拜白山神社與王子神社、音無親水公園、King製麵魚介清湯餛飩叉燒拉麵。", tag: "shrine",
+                items: [
+                    { 
+                        time: "10:30", 
+                        spot: "根津神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 6/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/2nvQxLrRdSNvJRcJA", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://nedujinja.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E6%A0%B9%E6%B4%A5&y=2026&m=11&d=29&hh=09&m1=45&m2=0",
+                        img: "Tokyo 2026/Day6/Day6根津神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "11:30", 
+                        spot: "手打ちそば 根津 鷹匠", 
+                        category: "food", 
+                        desc: "蕎麥百名店，推薦必吃二色蕎麥麵。（12:00-18:00 營業，休一二）", 
+                        badge: "Tabelog 3.71 蕎麥百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/rexJScbzvQyR6Yxy9", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1311/A131106/13009812/", 
+                        officialUrl: "https://www.facebook.com/pages/%E6%A0%B9%E6%B4%A5-%E9%B7%B9%E5%8C%A0/112839908772157?_rdr", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%A0%B9%E6%B4%A5%E7%A5%9E%E7%A4%BE&to=%E6%A0%B9%E6%B4%A5+%E9%B7%B9%E5%8C%A0&y=2026&m=11&d=29&hh=11&m1=20&m2=0",
+                        img: "Tokyo 2026/Day6/Day6鷹匠.jpg", 
+                        icon: "🥢" 
+                    },
+                    { 
+                        time: "13:00", 
+                        spot: "芋甚", 
+                        category: "food", 
+                        desc: "日式雪糕甜品百名店。（11:00-18:00 營業，休一二）", 
+                        badge: "Tabelog 3.71 甜品百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/KKMjD8yXXr4WPbon8", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1311/A131106/13003559/", 
+                        officialUrl: "https://www.instagram.com/imojin.nezu/?hl=ja", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%A0%B9%E6%B4%A5+%E9%B7%B9%E5%8C%A0&to=%E8%8A%8B%E7%94%9A&y=2026&m=11&d=29&hh=12&m1=55&m2=0",
+                        img: "Tokyo 2026/Day6/Day6芋甚.jpg", 
+                        icon: "🍨" 
+                    },
+                    { 
+                        time: "13:45 - 14:45", 
+                        spot: "東京大學百年大銀杏並木大道", 
+                        category: "nature", 
+                        desc: "賞銀杏散策路線：彌生講堂前 ➔ 本鄉校區 ➔ 本鄉三丁目站。", 
+                        badge: "金黃銀杏並木", 
+                        googleMapUrl: "https://maps.app.goo.gl/pRVxZxxbUbHEukP69", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.jrtimes.tw/article.aspx?article_id=450", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%8A%8B%E7%94%9A&to=%E6%9D%B1%E6%BD%A1%E5%A4%A7%E5%AD%A6%E5%BD%A1%E7%94%9F%E8%AC%9B%E5%A0%82&y=2026&m=11&d=29&hh=13&m1=35&m2=0",
+                        img: "Tokyo 2026/Day6/Day6東京大學.jpg", 
+                        icon: "🍁" 
+                    },
+                    { 
+                        time: "15:15", 
+                        spot: "白山神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 7/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/HwbYy5ajBsmP7mpKA", 
+                        tabelogUrl: "", 
+                        officialUrl: "http://www.tokyo-jinjacho.or.jp/bunkyo/5901", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9C%AC%E9%84%B7%E4%B8%89%E4%B8%81%E7%9B%AE&to=%E7%99%BD%E5%B1%B1&y=2026&m=11&d=29&hh=14&m1=55&m2=0",
+                        img: "Tokyo 2026/Day6/Day6白山神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "16:15", 
+                        spot: "王子神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。（社務所至 16:30）", 
+                        badge: "十社巡禮 8/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/PhRLWRVkC7qvE6Rz8", 
+                        tabelogUrl: "", 
+                        officialUrl: "http://ojijinja.tokyo.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E7%99%BD%E5%B1%B1&to=%E7%8E%8B%E5%AD%90&y=2026&m=11&d=29&hh=15&m1=50&m2=0",
+                        img: "Tokyo 2026/Day6/Day6王子神社.jpeg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "17:00", 
+                        spot: "音無親水公園", 
+                        category: "nature", 
+                        desc: "王子神社旁漫步賞夜景與溪流散策。", 
+                        badge: "", 
+                        googleMapUrl: "https://maps.app.goo.gl/nZJmZTiqJ97PNTZ77", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.city.kita.lg.jp/parks/list/1009539/1009548.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E7%8E%8B%E5%AD%90%E7%A5%9E%E7%A4%BE&to=%E9%9F%B3%E7%84%A1%E8%A6%AA%E6%B0%B4%E5%85%AC%E5%9C%92&y=2026&m=11&d=29&hh=16&m1=55&m2=0",
+                        img: "Tokyo 2026/Day6/Day6音無親水公園.jpg", 
+                        icon: "🌳" 
+                    },
+                    { 
+                        time: "17:30 - 18:00", 
+                        spot: "King製麵 (キング製麺)", 
+                        category: "food", 
+                        desc: "預算 15 至 30 分鐘排隊，享用魚介清湯餛飩叉燒拉麵。（17:30-20:30 營業）", 
+                        badge: "Tabelog 3.79 米芝蓮推介", 
+                        googleMapUrl: "https://maps.app.goo.gl/AqQL1oyizNAQG2FE8", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1323/A132303/13232817/", 
+                        officialUrl: "http://ramenkoike.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%9F%B3%E7%84%A1%E8%A6%AA%E6%B0%B4%E5%85%AC%E5%9C%92&to=%E7%8E%8B%E5%AD%90%E7%AB%AF%E5%8D%81%E6%9D%A1&y=2026&m=11&d=29&hh=17&m1=15&m2=0",
+                        img: "Tokyo 2026/Day6/Day6King.jpg", 
+                        icon: "🍜" 
+                    }
+                ]
+            },
+            {
+                day: 7, date: "11/30", week: "Mon", title: "秩父一日遊 🚄 長瀞荒川遊船 寶登山纜車 祭之湯溫泉",
+                summary: "西武秩父站前祭之湯浸溫泉與美食街晚餐。", tag: "onsen",
+                items: [
+                    { 
+                        time: "08:30 - 10:10", 
+                        spot: "池袋站 🚄 Laview 特急往秩父", 
+                        category: "transport", 
+                        desc: "搭乘西武 Laview 特急前往西武秩父（約 1 小時 40 分鐘）。", 
+                        badge: "西武特急 Laview", 
+                        googleMapUrl: "https://maps.app.goo.gl/GdYZMvFxgp6x3RRNA", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.seiburailway.jp/zh-tw/railway/limitedexpress/laview/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E8%A5%BF%E6%AD%A6%E7%A7%A9%E父&y=2026&m=11&d=30&hh=08&m1=30&m2=0",
+                        img: "Tokyo 2026/Day7/Day7Laview.jpg", 
+                        icon: "🚆" 
+                    },
+                    { 
+                        time: "10:30", 
+                        spot: "Bakery Lapin Noir", 
+                        category: "food", 
+                        desc: "秩父人氣手作麵包百名店。（10:00-17:00 營業，休二五）", 
+                        badge: "Tabelog 3.65 麵包百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/X1n6EsHhhYtuWp1R7", 
+                        tabelogUrl: "https://tabelog.com/tw/saitama/A1107/A110701/11003478/", 
+                        officialUrl: "https://www.lapin-noir.co.jp/product/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%A5%BF%E6%AD%A6%E7%A7%A9%E父&to=%E3%83%A9%E3%83%91%E3%83%B3%E3%83%8E%E3%83%AF%E3%83%BC%E3%83%AB%E3%81%8F%E3%82%8D%E3%81%99%E3%81%BF&y=2026&m=11&d=30&hh=10&m1=15&m2=0",
+                        img: "Tokyo 2026/Day7/Day7 Bakery Lapin Noir.jpg", 
+                        icon: "🥐" 
+                    },
+                    { 
+                        time: "11:00", 
+                        spot: "秩父神社", 
+                        category: "shrine", 
+                        desc: "參拜秩父三大神社之一【秩父神社】。", 
+                        badge: "秩父名剎", 
+                        googleMapUrl: "https://maps.app.goo.gl/g5KXR7gc9idGkqFb6", 
+                        tabelogUrl: "", 
+                        officialUrl: "http://www.chichibu-jinja.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E3%83%A9%E3%83%91%E3%83%B3%E3%83%8E%E3%83%AF%E3%83%BC%E3%83%AB%E3%81%8F%E3%82%8D%E3%81%99%E3%81%BF&to=%E7%A7%A1%E7%88%B6%E7%A5%9E%E7%A4%BE&y=2026&m=11&d=30&hh=10&m1=50&m2=0",
+                        img: "Tokyo 2026/Day7/Day7秩父神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "12:00", 
+                        spot: "長瀞站 豚みそ丼専門店 有隣", 
+                        category: "food", 
+                        desc: "享用秩父在地名物火烤香氣十足的味噌豬肉丼。（10:30-16:00 營業，休三四）", 
+                        badge: "Tabelog 3.44 名物味噌豬肉丼", 
+                        googleMapUrl: "https://maps.app.goo.gl/1ZFmXRyaZPiLqFcY8", 
+                        tabelogUrl: "https://tabelog.com/saitama/A1107/A110704/11050608/", 
+                        officialUrl: "https://www.chichibu-railway.co.jp/nagatoro/yurinbutamiso.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E7%A7%A1%E7%88%B6&to=%E9%95%B7%E7%80%9E&y=2026&m=11&d=30&hh=11&m1=45&m2=0",
+                        img: "Tokyo 2026/Day7/Day7有隣.jpg", 
+                        icon: "🍚" 
+                    },
+                    { 
+                        time: "13:00 - 14:00", 
+                        spot: "長瀞荒川遊船", 
+                        category: "nature", 
+                        desc: "路線：岩疊發船，終點為高砂橋，平穩欣賞沿岸奇岩風光（20 分鐘）。高砂橋搭乘免費接駁巴士返長瀞站。", 
+                        badge: "荒川奇岩順流遊船", 
+                        googleMapUrl: "https://maps.app.goo.gl/vtqzJSVq7bzW4q7U8", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.chichibu-railway.co.jp/nagatoro/boat.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%95%B7%E7%80%9E&to=%E9%95%B7%E7%80%9E%E5%B2%B8%E7%96%8A&y=2026&m=11&d=30&hh=12&m1=55&m2=0",
+                        img: "Tokyo 2026/Day7/Day7長瀞荒川遊船.jpg", 
+                        icon: "🚣" 
+                    },
+                    { 
+                        time: "14:00 - 15:30", 
+                        spot: "寶登山纜車 ‧ 寶登山神社 ‧ SUSABINO TERRACE", 
+                        category: "nature", 
+                        desc: "長瀞站前搭乘免費接駁巴士至寶登山神社入口，步行數分鐘至山麓站搭乘纜車登高至 SUSABINO TERRACE 觀景平台。", 
+                        badge: "寶登山全景觀景台", 
+                        googleMapUrl: "https://maps.app.goo.gl/MxzTkueUk7dRcVr49", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.chichibu-railway.co.jp/nagatoro/corse.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%95%B7%E7%80%9E&to=%E5%AF%B6%E7%99%BB%E5%B1%B1%E3%83%AD%E3%83%BC%E3%83%97%E3%82%A6%E3%82%A8%E3%82%A4&y=2026&m=11&d=30&hh=14&m1=00&m2=0",
+                        img: "Tokyo 2026/Day7/Day7寶登山.jpg", 
+                        icon: "🚠" 
+                    },
+                    { 
+                        time: "15:45 - 16:30", 
+                        spot: "阿左美冷蔵", 
+                        category: "food", 
+                        desc: "享用著名天然水刨冰甜品。（10:00-16:30 營業，休四）", 
+                        badge: "Tabelog 3.64 刨冰百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/afQLktNv1oHkMxSj7", 
+                        tabelogUrl: "https://tabelog.com/tw/saitama/A1107/A110704/11000617/", 
+                        officialUrl: "http://asamireizo.web.fc2.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%AF%B6%E7%99%BB%E5%B1%B1%E3%83%AD%E3%83%BC%E3%83%97%E3%82%A6%E3%82%A8%E3%82%A4&to=%E9%98%BF%E5%B7%A6%E7%BE%8E%E5%86%B7%E8%94%B5&y=2026&m=11&d=30&hh=15&m1=35&m2=0",
+                        img: "Tokyo 2026/Day7/Day7阿左美冷蔵.jpg", 
+                        icon: "🍧" 
+                    },
+                    { 
+                        time: "17:00", 
+                        spot: "西武秩父站前 祭之湯", 
+                        category: "onsen", 
+                        desc: "體驗特色秩父溫泉【祭之湯】放鬆身心浸溫泉。", 
+                        badge: "日歸名湯", 
+                        googleMapUrl: "https://maps.app.goo.gl/Ut9pdZkCpGgucFn29", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.seibu-leisure.co.jp/matsuri/index.html?utm_source=google&utm_medium=map&utm_campaign=Google_map_organic", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%95%B7%E7%80%9E&to=%E8%A5%BF%E6%AD%A6%E7%A7%A9%E父&y=2026&m=11&d=30&hh=16&m1=35&m2=0",
+                        img: "Tokyo 2026/Day7/Day7祭之湯.jpg", 
+                        icon: "♨️" 
+                    },
+                    { 
+                        time: "18:30 - 19:30", 
+                        spot: "祭之湯美食街", 
+                        category: "food", 
+                        desc: "享用草鞋豬肉丼、蔥拉麵與在地精釀啤酒晚餐。晚餐後約 19:30 乘車返回東武練馬站。", 
+                        badge: "Tabelog 3.21 地元美食街", 
+                        googleMapUrl: "https://maps.app.goo.gl/Ut9pdZkCpGgucFn29", 
+                        tabelogUrl: "https://tabelog.com/saitama/A1107/A110701/11044455/", 
+                        officialUrl: "https://www.seibu-leisure.co.jp/matsuri/utage/index.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%A5%BF%E6%AD%A6%E7%A7%A9%E父&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=11&d=30&hh=19&m1=30&m2=0",
+                        img: "Tokyo 2026/Day7/Day7祭之湯美食街.jpg", 
+                        icon: "🍺" 
+                    }
+                ]
+            },
+            {
+                day: 8, date: "12/01", week: "Tue", title: "東京十社 (9-10) 炸豬排咖啡百名店 高輪Gateway City高空觀景",
+                summary: "Tonkatsu Iwai 享用六白黑豚炸豬排、參拜芝大神宮、Le Pain Quotidien 芝公園 Café 輕食、芝公園東京鐵塔紅葉散策、參拜品川神社完成十社大滿貫！高輪 Gateway City LUFTBAUM 高空觀景與牛丼㐂㐂屋享用頂級和牛丼晚餐。", tag: "shrine",
+                items: [
+                    { 
+                        time: "11:00", 
+                        spot: "Tonkatsu Iwai (とんかつ いわい)", 
+                        category: "food", 
+                        desc: "享用夢幻頂級六白黑豚炸豬排。（11:30-14:30 營業，休日）", 
+                        badge: "Tabelog 3.75 炸豬排百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/9aNkkmJpcygHpE2e6", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1314/A131401/13170377/", 
+                        officialUrl: "https://tonkatsu-iwai.com/menu.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E5%A4%A7%E9%90%A8&y=2026&m=12&d=01&hh=10&m1=15&m2=0",
+                        img: "Tokyo 2026/Day8/Day8Tonkatsu Iwai.jpg", 
+                        icon: "🥩" 
+                    },
+                    { 
+                        time: "12:45", 
+                        spot: "芝大神宮", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 9/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/JefQyHB14mL3jZP98", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.shibadaijingu.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%A4%A7%E9%90%A8&to=%E8%8A%9D%E5%A4%A7%E7%A5%9E%E5%AE%AE&y=2026&m=12&d=01&hh=12&m1=30&m2=0",
+                        img: "Tokyo 2026/Day8/Day8芝大神宮.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "13:30", 
+                        spot: "Le Pain Quotidien 芝公園店", 
+                        category: "food", 
+                        desc: "Café 百名店，享用精緻烘焙與輕食甜品（可野餐）。", 
+                        badge: "Tabelog 3.70 Café 百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/bmFjtExYLF8yWd3U7", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1314/A131401/13120999/", 
+                        officialUrl: "https://lepainquotidien.com/jp/menu?utm_source=gmb&utm_medium=business-listing", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%8A%9D%E5%A4%A7%E7%A5%9E%E5%AE%AE&to=%E8%8A%9D%E5%85%AC%E5%9C%92&y=2026&m=12&d=01&hh=13&m1=20&m2=0",
+                        img: "Tokyo 2026/Day8/Day8 Le Pain Quotidien.jpg", 
+                        icon: "☕" 
+                    },
+                    { 
+                        time: "14:00", 
+                        spot: "芝公園", 
+                        category: "nature", 
+                        desc: "漫步芝公園，欣賞東京鐵塔與金黃紅葉交織絕景散策。", 
+                        badge: "東京鐵塔紅葉散策", 
+                        googleMapUrl: "https://maps.app.goo.gl/BGcCPSgVZ48d456YA", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.tokyo-park.or.jp/park/siba/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%8A%9D%E5%85%AC%E5%9C%92&to=%E8%8A%9D%E5%85%AC%E5%9C%92&y=2026&m=12&d=01&hh=13&m1=55&m2=0",
+                        img: "Tokyo 2026/Day8/Day8芝公園.jpg", 
+                        icon: "🗼" 
+                    },
+                    { 
+                        time: "15:15", 
+                        spot: "品川神社", 
+                        category: "shrine", 
+                        desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", 
+                        badge: "十社巡禮 大滿貫 🎉 10/10", 
+                        googleMapUrl: "https://maps.app.goo.gl/SyA2Xa5JRGK98Lr98", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://shinagawajinja.tokyo/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E8%8A%9D%E5%85%AC%E5%9C%92&to=%E6%96%B0%E9%A6%AC%E1%A0%B8&y=2026&m=12&d=01&hh=14&m1=50&m2=0",
+                        img: "Tokyo 2026/Day8/Day8品川神社.jpg", 
+                        icon: "⛩️" 
+                    },
+                    { 
+                        time: "16:00", 
+                        spot: "高輪Gateway City ‧ LUFTBAUM高空觀景", 
+                        category: "nature", 
+                        desc: "登高高輪 Gateway City 28F LUFTBAUM，俯瞰全景高空城市景致。", 
+                        badge: "高空觀景台", 
+                        googleMapUrl: "https://maps.app.goo.gl/46STiAEGNpSGXPqg7", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.newoman.jp/takanawa/floorguide/?area=area03nman01&floor=28f", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%96%B0%E9%A6%AC%E1%A0%B8&to=%E9%AB%98%E8%BC%AA%E3%82%B2%E3%83%BC%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A4&y=2026&m=12&d=01&hh=15&m1=45&m2=0",
+                        img: "Tokyo 2026/Day8/Day8高輪.jpg", 
+                        icon: "🏢" 
+                    },
+                    { 
+                        time: "18:00 - 19:00", 
+                        spot: "牛丼 㐂㐂屋 (高輪MIMURE 3樓 NEWoMan)", 
+                        category: "food", 
+                        desc: "品嚐頂級品牌和牛丼：常陸牛丼 JPY 2,700、山形牛丼 JPY 3,200、神戶牛丼 JPY 4,950。（11:00-22:00 營業）。晚餐後約 19:00 乘車返回東武練馬站。", 
+                        badge: "Tabelog 3.41 頂級和牛丼", 
+                        googleMapUrl: "https://maps.app.goo.gl/aqphCZqmjx7vhXsC6", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1314/A131403/13319190/", 
+                        officialUrl: "https://www.instagram.com/gyudon_kikiya/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E9%AB%98%E8%BC%AA%E3%82%B2%E3%83%BC%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A4&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=12&d=01&hh=19&m1=00&m2=0",
+                        img: "Tokyo 2026/Day8/Day8㐂㐂屋.jpg", 
+                        icon: "🍚" 
+                    }
+                ]
+            },
+            {
+                day: 9, date: "12/02", week: "Wed", title: "埼玉 鰻魚紅葉半日遊 古民家溫泉夜",
+                summary: "東武練馬出發至埼玉浦和，排隊享用 4.02 神級鰻魚飯「鰻 むさし乃」、別所沼公園水杉逆影紅葉散策、ANOTHER PLACE CAFÉ 愜意輕食、KU~NERUbakery 3.70 麵包百名店採買、返回東武練馬 Airbnb 稍息，晚間前往前野原溫泉さやの湯處，於柿天舍享用和食晚餐並體驗露天風呂天然溫泉。", tag: "onsen",
+                items: [
+                    { 
+                        time: "10:30", 
+                        spot: "鰻 むさし乃", 
+                        category: "food", 
+                        desc: "東武練馬出發約 35-45 分鐘抵達埼玉浦和站排隊，品嚐宮崎佐土原和匠鰻新仔鰻重（JPY 6,600）。（11:00-13:00 營業，休一）", 
+                        badge: "Tabelog 4.02 神級鰻魚百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/5H6AMgzgQBFXimyQA", 
+                        tabelogUrl: "https://tabelog.com/tw/saitama/A1101/A110102/11003959/", 
+                        officialUrl: "http://unagimusashino.com/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E6%B5%A6%E5%92%8C&y=2026&m=12&d=02&hh=09&m1=45&m2=0",
+                        img: "Tokyo 2026/Day9/Day9鰻.jpg", 
+                        icon: "🍱" 
+                    },
+                    { 
+                        time: "13:00", 
+                        spot: "別所沼公園 水杉 逆さ紅葉", 
+                        category: "nature", 
+                        desc: "漫步別所沼公園，欣賞浪漫水杉與湖面白倒映的逆影紅葉美景。", 
+                        badge: "水杉逆影紅葉", 
+                        googleMapUrl: "https://maps.app.goo.gl/iWMX3LwsxqEE4yAu7", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.sgp.or.jp/bessyonuma", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B5%A6%E5%92%8C&to=%E4%B8%AD%E6%B5%A6%E5%92%8C&y=2026&m=12&d=02&hh=12&m1=45&m2=0",
+                        img: "Tokyo 2026/Day9/Day9別所沼公園.jpg", 
+                        icon: "🍁" 
+                    },
+                    { 
+                        time: "14:00", 
+                        spot: "ANOTHER PLACE CAFÉ", 
+                        category: "food", 
+                        desc: "公園旁質感咖啡廳，享受午後放鬆氛圍與精緻輕食。", 
+                        badge: "Tabelog 3.50 質感 Café", 
+                        googleMapUrl: "https://maps.app.goo.gl/75yUYG4MkeYT9wVo9", 
+                        tabelogUrl: "https://tabelog.com/tw/saitama/A1101/A110102/11050911/", 
+                        officialUrl: "https://gourmet513.com/page/index?gs=XOKva48yQAHC", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%88%A5%E6%89%80%E6%B2%A3%E5%85%AC%E5%9C%92&to=ANOTHER+PLACE+CAFE&y=2026&m=12&d=02&hh=13&m1=55&m2=0",
+                        img: "Tokyo 2026/Day9/Day9ANOTHER PLACE CAFÉ.jpg", 
+                        icon: "☕" 
+                    },
+                    { 
+                        time: "15:00", 
+                        spot: "KU~NERUbakery", 
+                        category: "food", 
+                        desc: "浦和站旁高評價麵包百名店，採買特色手作麵包。", 
+                        badge: "Tabelog 3.70 麵包百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/sA6Tos4HKTxAjDhXA", 
+                        tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11028957/", 
+                        officialUrl: "", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E4%B8%AD%E6%B5%A6%E5%92%8C&to=%E6%B5%A6%E5%92%8C&y=2026&m=12&d=02&hh=14&m1=45&m2=0",
+                        img: "Tokyo 2026/Day9/Day9 KU~NERUbakery.jpg", 
+                        icon: "🥐" 
+                    },
+                    { 
+                        time: "16:00", 
+                        spot: "東武練馬 Airbnb 稍息", 
+                        category: "hotel", 
+                        desc: "返回東武練馬民宿整理與短暫休息補眠。", 
+                        badge: "民宿休息", 
+                        googleMapUrl: "https://maps.app.goo.gl/hn3Yvx5upiEGyNm86", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.airbnb.com.hk/rooms/912618396435484170?guests=1&adults=1&s=67&unique_share_id=c48cfd75-8954-41da-b00b-15d6e9aef960", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B5%A6%E5%92%8C&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=12&d=02&hh=15&m1=15&m2=0",
+                        icon: "🛏️" 
+                    },
+                    { 
+                        time: "18:30", 
+                        spot: "前野原溫泉 さやの湯處 柿天舍", 
+                        category: "food", 
+                        desc: "於古民家餐廳「柿天舍」享用十割蕎麥丼飯套餐或日式和食套餐。（10:00-00:00 營業）", 
+                        badge: "Tabelog 3.48 古民家和食", 
+                        googleMapUrl: "https://maps.app.goo.gl/NdxgSxogB3K6NFbV7", 
+                        tabelogUrl: "https://tabelog.com/tokyo/A1322/A132205/13032298/", 
+                        officialUrl: "https://www.sayanoyudokoro.co.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E5%BF%97%E6%9D%91%E4%B8%89%E4%B8%81%E7%9B%AE&y=2026&m=12&d=02&hh=18&m1=10&m2=0",
+                        img: "Tokyo 2026/Day9/Day9柿天舍.jpeg", 
+                        icon: "🍲" 
+                    },
+                    { 
+                        time: "19:30", 
+                        spot: "前野原溫泉 さやの湯處 露天風呂天然溫泉", 
+                        category: "onsen", 
+                        desc: "體驗源泉直瀉古民家露天風呂天然溫泉放鬆身心。巴士來回約 15 分鐘，隨後返回東武練馬 Airbnb。", 
+                        badge: "源泉直瀉露天名湯", 
+                        googleMapUrl: "https://maps.app.goo.gl/NdxgSxogB3K6NFbV7", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.sayanoyudokoro.co.jp/facilities/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%BF%97%E6%9D%91%E4%B8%89%E4%B8%81%E7%9B%AE&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=12&d=02&hh=21&m1=00&m2=0",
+                        img: "Tokyo 2026/Day9/Day9前野原溫泉.jpg", 
+                        icon: "♨️" 
+                    }
+                ]
+            },
+            {
+                day: 10, date: "12/03", week: "Thu", title: "池袋 購物 觀景 壽喜燒 海鮮丼",
+                summary: "享用人形町今半 15F 頂級壽喜燒 Lunch Set、池袋商圈熱鬧逛街採買（3Coins+Plus、Standard Products、Seria、太陽城 alpa SM2 / Studio CLIP）、太陽城陽光 60 瞭望台 TENBOU-PARK 欣賞高空落日夜景、品嚐宍道湖蜆中華蕎麥琥珀特上拉麵，晚間返回東武練馬板橋 AEON 採買海膽拖羅醋飯返 Airbnb 享用宵夜。", tag: "shop",
+                items: [
+                    { 
+                        time: "12:00", 
+                        spot: "人形町今半 (池袋東武店 15F)", 
+                        category: "food", 
+                        desc: "享用百年老店極致黑毛和牛壽喜燒 Lunch Set (JPY 7,920)。（11:00-15:00，官網提前兩星期網上預約）", 
+                        badge: "Tabelog 3.60 百年壽喜燒名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/irEJsQw2GtppiPz8A", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1305/A130501/13187796/", 
+                        officialUrl: "https://restaurant.imahan.com/menu-ikebukuro-tobu/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E6%B1%A0%E8%A2%8B&y=2026&m=12&d=03&hh=11&m1=15&m2=0",
+                        img: "Tokyo 2026/Day10/Day10人形町今半.jpg", 
+                        icon: "🍲" 
+                    },
+                    { 
+                        time: "13:30", 
+                        spot: "池袋逛街購物", 
+                        category: "shop", 
+                        desc: "池袋商圈熱鬧散策採買：3Coins+Plus、Standard Products、Seria，以及太陽城 alpa B1F SM2 (Samansa Mos2)、1F Studio CLIP (FELISSIMO outlook)。", 
+                        badge: "池袋商圈 Shopping", 
+                        googleMapUrl: "https://maps.app.goo.gl/n9zPBEEP3gnZnV5t7", 
+                        tabelogUrl: "", 
+                        officialUrl: "", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E6%B1%A0%E8%A2%8B&y=2026&m=12&d=03&hh=13&m1=25&m2=0",
+                        icon: "🛍️" 
+                    },
+                    { 
+                        time: "16:30", 
+                        spot: "太陽城陽光60瞭望台 TENBOU-PARK", 
+                        category: "nature", 
+                        desc: "登高高空綠洲 TENBOU-PARK，俯瞰 360 度池袋與東京天際線夕陽絕景。", 
+                        badge: "高空 360 度觀景台", 
+                        googleMapUrl: "https://maps.app.goo.gl/8GZRZTWLy7ndJuao7", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://sunshinecity.jp/observatory/?utm_source=Google&utm_medium=mybusiness&utm_campaign=kutikomi&utm_id=1", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E6%9D%B1%E4%BA%AC%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3&y=2026&m=12&d=03&hh=16&m1=15&m2=0",
+                        img: "Tokyo 2026/Day10/Day10TENBOU-PARK.jpg", 
+                        icon: "🌆" 
+                    },
+                    { 
+                        time: "18:15", 
+                        spot: "宍道湖蜆中華蕎麥 琥珀 池袋店", 
+                        category: "food", 
+                        desc: "品嚐極致鮮美黃金蜆湯頭特上中華蕎麥拉麵。（11:00-22:30 營業）", 
+                        badge: "Tabelog 3.74 超人氣拉麵", 
+                        googleMapUrl: "https://maps.app.goo.gl/SP9wn5MYUh5xtW8c8", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1305/A130501/13283190/", 
+                        officialUrl: "https://x.com/ikebukurokohaku", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E4%BA%AC%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3&to=%E6%B1%A0%E8%A2%8B&y=2026&m=12&d=03&hh=18&m1=00&m2=0",
+                        img: "Tokyo 2026/Day10/Day10琥珀.jpg", 
+                        icon: "🍜" 
+                    },
+                    { 
+                        time: "18:30 - 19:30", 
+                        spot: "東武練馬板橋 AEON 超市", 
+                        category: "shop", 
+                        desc: "搭車返回東武練馬，於板橋 AEON 超市採買新鮮海膽與拖羅醋飯，帶返 Airbnb 享用美味海鮮晚餐宵夜。", 
+                        badge: "海鮮宵夜採買", 
+                        googleMapUrl: "https://maps.app.goo.gl/eGpMNbDnYMqRawMWA", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.aeon.jp/sc/itabashi/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&y=2026&m=12&d=03&hh=18&m1=30&m2=0",
+                        icon: "🍱" 
+                    }
+                ]
+            },
+            {
+                day: 11, date: "12/04", week: "Fri", title: "Airbnb Check out 大山商店街 拉麵甜品百名店 機場黑鮪魚飯賦歸",
+                summary: "辦理 Airbnb Check out 後前往池袋西口 Big Echo 暫存行李，品嚐 3.81 神級拉麵「支那ソバ おさだ」、漫步大山商店街品嚐昭和懷舊小吃、享用 3.81 甜品百名店 Patisserie Materiel 法式甜點，搭乘機場巴士直達成田機場 T2，於 JAPAN FOOD HALL すし京辰 享用頂級野生黑鮪魚飯，搭乘 UO651 滿載美好回億飛返香港！", tag: "food",
+                items: [
+                    { 
+                        time: "10:00", 
+                        spot: "Airbnb Check out ‧ Ecbo Cloak - Big Echo 池袋西口駅前店", 
+                        category: "transport", 
+                        desc: "辦理 Airbnb 退房，前往池袋西口正前方 YKD 大樓 8F (1F 為 GU) 接待櫃檯辦理 ecbo cloak 行李暫存（JPY 800/件，提早預約，營業時間 09:00-04:30）。", 
+                        badge: "行李寄存 Service", 
+                        googleMapUrl: "https://maps.app.goo.gl/otC1XbXG4zRGU2pK6", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://cloak.ecbo.io/zh-TW/spaces/4ee40cc3-680b-46a3-9249-d5864730d157", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%9D%B1%E6%AD%A6%E7%B7%B4%E9%A6%AC&to=%E6%B1%A0%E8%A2%8B&y=2026&m=12&d=04&hh=09&m1=15&m2=0",
+                        img: "Tokyo 2026/Day11/Day11BigEcho.jpg", 
+                        icon: "🧳" 
+                    },
+                    { 
+                        time: "11:00", 
+                        spot: "支那ソバ おさだ", 
+                        category: "food", 
+                        desc: "品嚐湯頭清醇極致的拉麵百名店「支那ソバ おさだ」。（11:00-14:30 營業，休三六）", 
+                        badge: "Tabelog 3.81 拉麵百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/gb8AZQUaxG2qcHGz9", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1322/A132203/13266841/", 
+                        officialUrl: "https://x.com/osada_shinasoba", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E5%A4%A7%E5%B1%B1%28%E6%9D%B1%E4%BA%AC%E9%83%BD%29&y=2026&m=12&d=04&hh=10&m1=35&m2=0",
+                        img: "Tokyo 2026/Day11/Day11支那.jpg", 
+                        icon: "🍜" 
+                    },
+                    { 
+                        time: "12:00", 
+                        spot: "大山商店街 散策", 
+                        category: "shop", 
+                        desc: "熱鬧懷舊昭和風情商店街散步！品嚐特色法式薄餅、古早味可樂餅、三明治等豐富在地小吃的美味體驗。", 
+                        badge: "昭和懷舊小吃散策", 
+                        googleMapUrl: "https://maps.app.goo.gl/hQFvNoGfRUCcyrZR9", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1322/A132203/R1914/rstLst/?SrtT=rt&railroad=true", 
+                        officialUrl: "https://haro.or.jp/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%94%AF%E2%BD%A2%E3%82%BD%E3%83%90%E3%81%8A%E3%81%95%E3%81%A0&to=%E5%A4%A7%E5%B1%B1%E3%83%8F%E3%83%B3%E3%83%81%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%89&y=2026&m=12&d=04&hh=11&m1=55&m2=0",
+                        img: "Tokyo 2026/Day11/Day11大山商店街.jpg", 
+                        icon: "🍡" 
+                    },
+                    { 
+                        time: "13:30", 
+                        spot: "Patisserie Materiel (パティスリー マテリエル)", 
+                        category: "food", 
+                        desc: "享用甜品百名店精緻絕倫的法式蛋糕與手作甜品。（10:00-18:00 營業，休三四）", 
+                        badge: "Tabelog 3.81 甜品百名店", 
+                        googleMapUrl: "https://maps.app.goo.gl/ieWd2n6GCMV3K7LTA", 
+                        tabelogUrl: "https://tabelog.com/tw/tokyo/A1322/A132203/13110008/", 
+                        officialUrl: "http://www.patisserie-materiel.com/index.html", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E5%A4%A7%E5%B1%B1%E3%83%8F%E3%83%B3%E3%83%81%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%89&to=%E5%A4%A7%E4%B8%AD%E7%94%BA&y=2026&m=12&d=04&hh=13&m1=15&m2=0",
+                        img: "Tokyo 2026/Day11/Day11Patisserie Materiel.jpg", 
+                        icon: "🍰" 
+                    },
+                    { 
+                        time: "15:30 - 18:00", 
+                        spot: "機場巴士前往成田機場 T2 辦理 Check-in", 
+                        category: "transport", 
+                        desc: "返回池袋 Big Echo 取回行李，搭乘機場利木津巴士直達成田國際機場 Terminal 2，於 18:00 前抵達 Counter 辦理 UO651 航班 Check-in 及託運行李。", 
+                        badge: "機票 UO651 (20:05 起飛)", 
+                        googleMapUrl: "https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+2", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.narita-airport.jp/zh-tc/shop/malllist-t2/", 
+                        transitUrl: "https://transit.yahoo.co.jp/search/result?from=%E6%B1%A0%E8%A2%8B&to=%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC%EF%BC%92%E3%83%80%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&y=2026&m=12&d=04&hh=15&m1=30&m2=0",
+                        icon: "🚌" 
+                    },
+                    { 
+                        time: "18:45", 
+                        spot: "JAPAN FOOD HALL ‧ すし京辰 (成田機場 T2 出境後)", 
+                        category: "food", 
+                        desc: "出境後於 JAPAN FOOD HALL 內「すし京辰」享用離境前極致美味的野生黑鮪魚飯 (JPY 5,500) 或現場其他精緻日式美食。", 
+                        badge: "Tabelog 3.18 野生黑鮪魚飯", 
+                        googleMapUrl: "", 
+                        tabelogUrl: "https://tabelog.com/tw/chiba/A1204/A120401/12058358/", 
+                        officialUrl: "https://tisshuang.com/blog/post/japan-food-hall", 
+                        transitUrl: "", 
+                        img: "Tokyo 2026/Day11/Day11 JAPAN FOOD HALL.jpg", 
+                        icon: "🍣" 
+                    },
+                    { 
+                        time: "20:05", 
+                        spot: "香港快運 UO651 ✈️ 滿載回憶返港", 
+                        category: "transport", 
+                        desc: "搭乘香港快運 UO651 航班 (20:05 起飛)，預計深夜抵達香港，為 11 天精彩的東京秋漫遊劃下完美句點！", 
+                        badge: "返抵香港 🇭🇰", 
+                        googleMapUrl: "", 
+                        tabelogUrl: "", 
+                        officialUrl: "https://www.hkexpress.com/", 
+                        appScheme: "hkexpress://",
+                        transitUrl: "", 
+                        icon: "🛫" 
+                    }
+                ]
+            }
+        ];
+
+        let currentDayFilter = 'all';
+        let currentCatFilter = 'all';
+        let searchQuery = '';
+        let currentTheme = localStorage.getItem('tokyo_theme') || 'dark';
+        let currentFontSize = localStorage.getItem('tokyo_fontsize') || 'md';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initFontSize();
+            renderDayNav();
+            renderItinerary();
+            getGPSWeather();
+            initDragScroll();
+        });
+
+        // 初始化 Desktop Chrome 的滑鼠拖曳與滾輪滑動
+        function initDragScroll() {
+            document.querySelectorAll('.drag-scroll').forEach(slider => {
+                let isDown = false;
+                let startX, scrollLeft;
+
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    slider.classList.add('active');
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                });
+                slider.addEventListener('mouseleave', () => { isDown = false; });
+                slider.addEventListener('mouseup', () => { isDown = false; });
+                slider.addEventListener('mousemove', (e) => {
+                    if(!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - slider.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    slider.scrollLeft = scrollLeft - walk;
+                });
+
+                // 支援 Desktop 滾輪橫向滾動
+                slider.addEventListener('wheel', (e) => {
+                    if (e.deltaY !== 0) {
+                        e.preventDefault();
+                        slider.scrollLeft += e.deltaY;
+                    }
+                }, { passive: false });
+            });
+        }
+
+        function initTheme() { setTheme(currentTheme); }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('tokyo_theme', theme);
+            const html = document.documentElement;
+            const btnLight = document.getElementById('btnThemeLight');
+            const btnDark = document.getElementById('btnThemeDark');
+
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                if(btnDark) btnDark.className = "flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-tokyo-red text-tokyo-red font-bold text-xs bg-red-500/10";
+                if(btnLight) btnLight.className = "flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-gray-300 dark:border-slate-600 text-xs font-bold text-gray-400";
+            } else {
+                html.classList.remove('dark');
+                if(btnLight) btnLight.className = "flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-tokyo-red text-tokyo-red font-bold text-xs bg-red-50";
+                if(btnDark) btnDark.className = "flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-gray-300 dark:border-slate-600 text-xs font-bold text-gray-400";
+            }
+        }
+
+        function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
+
+        function initFontSize() { setFontSize(currentFontSize); }
+        
+        function setFontSize(size) {
+            currentFontSize = size;
+            localStorage.setItem('tokyo_fontsize', size);
+            
+            const html = document.documentElement;
+            html.classList.remove('font-sm', 'font-md', 'font-lg');
+            html.classList.add(`font-${size}`);
+
+            ['Sm', 'Md', 'Lg'].forEach(s => {
+                const btn = document.getElementById(`btnFont${s}`);
+                if (btn) {
+                    if (s.toLowerCase() === size) {
+                        btn.className = "py-2 rounded-xl border border-tokyo-red bg-tokyo-red text-white text-xs font-bold text-center flex flex-col items-center justify-center shadow-md";
+                    } else {
+                        btn.className = "py-2 rounded-xl border border-gray-300 dark:border-slate-600 text-gray-500 dark:text-gray-400 text-xs font-bold text-center flex flex-col items-center justify-center";
+                    }
+                }
+            });
+        }
+
+        function toggleDrawer(open) {
+            const drawer = document.getElementById('drawerMenu');
+            const overlay = document.getElementById('drawerOverlay');
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function toggleSubmenu(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+
+        // --- 神社 Modal 相關 logic ---
+        function openShrineModal(shrineId) {
+            const shrine = shrinesData.find(s => s.id === shrineId);
+            if (!shrine) return;
+
+            document.getElementById('modalShrineName').innerText = `${shrine.id}. ${shrine.name}`;
+            
+            const contentEl = document.getElementById('modalShrineContent');
+            const formattedImgPath = formatImagePath(shrine.img);
+
+            contentEl.innerHTML = `
+                ${shrine.img ? `
+                <div class="w-full h-48 sm:h-64 overflow-hidden rounded-2xl bg-gray-100 dark:bg-slate-700 flex items-center justify-center">
+                    <img src="${formattedImgPath}" class="w-full h-full object-cover rounded-2xl" alt="${shrine.name}">
+                </div>` : ''}
+
+                <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-2xl border border-gray-200 dark:border-slate-600">
+                    <h4 class="font-black text-tokyo-red mb-1 flex items-center gap-1.5"><i class="fa-solid fa-book-bookmark"></i> 歷史背景</h4>
+                    <p class="leading-relaxed text-gray-700 dark:text-gray-200">${shrine.history}</p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-2xl border border-gray-200 dark:border-slate-600">
+                    <h4 class="font-black text-amber-500 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-hands-praying"></i> 參拜祈願 ‧ 御利益</h4>
+                    <p class="leading-relaxed font-bold text-gray-900 dark:text-white">${shrine.benefits}</p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-2xl border border-gray-200 dark:border-slate-600">
+                    <h4 class="font-black text-blue-500 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-synagogue"></i> 規模設施</h4>
+                    <p class="leading-relaxed text-gray-700 dark:text-gray-200">${shrine.scale}</p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-2xl border border-gray-200 dark:border-slate-600">
+                    <h4 class="font-black text-emerald-500 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-tree"></i> 地區與周邊環境</h4>
+                    <p class="leading-relaxed text-gray-700 dark:text-gray-200">${shrine.env}</p>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-slate-700/50 p-3.5 rounded-2xl border border-gray-200 dark:border-slate-600">
+                    <h4 class="font-black text-purple-500 mb-1 flex items-center gap-1.5"><i class="fa-solid fa-star"></i> 神社特色與必看景點</h4>
+                    <p class="leading-relaxed text-gray-700 dark:text-gray-200">${shrine.highlights}</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3 rounded-2xl border border-gray-200 dark:border-slate-600">
+                        <h4 class="font-black text-gray-500 dark:text-gray-400 text-xs mb-0.5"><i class="fa-regular fa-clock"></i> 社務所營業時間</h4>
+                        <p class="font-bold text-gray-900 dark:text-white">${shrine.hours}</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-3 rounded-2xl border border-gray-200 dark:border-slate-600">
+                        <h4 class="font-black text-gray-500 dark:text-gray-400 text-xs mb-0.5"><i class="fa-solid fa-award"></i> 特色御守 / 紀念品</h4>
+                        <p class="font-bold text-gray-900 dark:text-white">${shrine.souvenirs}</p>
+                    </div>
+                </div>
+            `;
+
+            const bottomNav = document.getElementById('shrineBottomNav');
+            bottomNav.innerHTML = shrinesData.map(s => `
+                <button id="shrineBtn_${s.id}" onclick="openShrineModal(${s.id})" class="px-3 py-1.5 rounded-xl text-xs whitespace-nowrap font-bold shrink-0 transition-all ${s.id === shrineId ? 'bg-tokyo-red text-white shadow-md scale-105' : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700'}">
+                    ${s.id}. ${s.shortName}
+                </button>
+            `).join('');
+
+            document.getElementById('shrineModal').classList.remove('hidden');
+
+            initDragScroll();
+
+            setTimeout(() => {
+                const activeBtn = document.getElementById(`shrineBtn_${shrineId}`);
+                if (activeBtn) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }, 50);
+        }
+
+        function closeShrineModal() {
+            document.getElementById('shrineModal').classList.add('hidden');
+        }
+
+        function openTransitModal() {
+            document.getElementById('transitModal').classList.remove('hidden');
+        }
+
+        function closeTransitModal() {
+            document.getElementById('transitModal').classList.add('hidden');
+        }
+
+        function renderDayNav() {
+            const container = document.getElementById('dayNavContainer');
+            let html = `
+                <button onclick="switchDay('all')" class="day-nav-btn ${currentDayFilter === 'all' ? 'bg-tokyo-red text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300'} text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap shadow-sm btn-press">
+                    全行程總覽 (11天)
+                </button>
+            `;
+            itineraryData.forEach(day => {
+                const isActive = currentDayFilter === day.day;
+                html += `
+                    <button onclick="switchDay(${day.day})" class="day-nav-btn ${isActive ? 'bg-tokyo-red text-white font-bold' : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300'} text-xs px-3 py-1.5 rounded-full whitespace-nowrap flex items-center gap-1 btn-press">
+                        <span>D${day.day}</span>
+                    </button>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateArrowVisibility() {
+            const prevBtn = document.getElementById('btnPrevDay');
+            const nextBtn = document.getElementById('btnNextDay');
+
+            if (currentDayFilter === 'all' || searchQuery.length > 0) {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+            } else {
+                if (currentDayFilter > 1) {
+                    prevBtn.classList.remove('hidden');
+                } else {
+                    prevBtn.classList.add('hidden');
+                }
+
+                if (currentDayFilter < itineraryData.length) {
+                    nextBtn.classList.remove('hidden');
+                } else {
+                    nextBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        function navigateDay(delta) {
+            if (currentDayFilter === 'all' || searchQuery.length > 0) return;
+            const newDay = currentDayFilter + delta;
+            if (newDay >= 1 && newDay <= itineraryData.length) {
+                switchDay(newDay);
+            }
+        }
+
+        function switchDay(day) {
+            currentDayFilter = day;
+            renderDayNav();
+            renderItinerary();
+            updateArrowVisibility();
+            scrollToTop();
+        }
+
+        function filterCategory(cat) {
+            currentCatFilter = cat;
+            renderItinerary();
+        }
+
+        /* 🔍 搜尋列即時反應邏輯 */
+        function handleSearch() {
+            const inputVal = document.getElementById('searchInput').value.trim();
+            const clearBtn = document.getElementById('clearSearch');
+
+            if (inputVal.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            searchQuery = inputVal.toLowerCase();
+            renderItinerary();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearch').classList.add('hidden');
+            searchQuery = '';
+            renderItinerary();
+        }
+
+        function openAppOrUrl(appScheme, webUrl) {
+            if (!webUrl) return;
+            if (appScheme) {
+                const start = Date.now();
+                window.location.href = appScheme;
+                setTimeout(() => {
+                    if (Date.now() - start < 1800) {
+                        window.open(webUrl, '_blank');
+                    }
+                }, 1500);
+            } else {
+                window.open(webUrl, '_blank');
+            }
+        }
+
+        function renderItinerary() {
+            const container = document.getElementById('itineraryContainer');
+            container.innerHTML = '';
+
+            // 如果沒有搜尋，且處於「全行程總覽」模式，顯示摘要模式
+            if (!searchQuery && currentDayFilter === 'all' && currentCatFilter === 'all') {
+                renderSummaryView(container);
+                updateArrowVisibility();
+                return;
+            }
+
+            // 搜尋時無視日數篩選，搜尋全 11 天內容
+            let filteredDays = itineraryData.filter(dayData => {
+                if (searchQuery) return true;
+                if (currentDayFilter !== 'all' && dayData.day !== currentDayFilter) return false;
+                return true;
+            });
+
+            let totalFoundCount = 0;
+
+            filteredDays.forEach(dayData => {
+                let matchingItems = dayData.items.filter(item => {
+                    // 分類篩選
+                    if (currentCatFilter !== 'all' && item.category !== currentCatFilter) return false;
+                    
+                    // 關鍵字搜尋：比對景點名稱、景點描述、標籤及地區資訊
+                    if (!searchQuery) return true;
+                    const matchSpot = item.spot ? item.spot.toLowerCase().includes(searchQuery) : false;
+                    const matchDesc = item.desc ? item.desc.toLowerCase().includes(searchQuery) : false;
+                    const matchBadge = item.badge ? item.badge.toLowerCase().includes(searchQuery) : false;
+                    return matchSpot || matchDesc || matchBadge;
+                });
+
+                if (matchingItems.length === 0) return;
+
+                totalFoundCount += matchingItems.length;
+
+                const daySection = document.createElement('section');
+                daySection.className = "space-y-3 mb-8";
+
+                const isWeekend = dayData.week === 'Sat' || dayData.week === 'Sun';
+                const dayBadgeBg = isWeekend ? 'bg-tokyo-red' : 'bg-gray-600';
+
+                let dayHeaderHtml = `
+                    <div class="flex items-center justify-between bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="${dayBadgeBg} text-white text-xs font-black px-2.5 py-1 rounded-xl shrink-0">Day ${dayData.day}</span>
+                            <div>
+                                <h2 class="text-title font-black text-gray-900 dark:text-white">${dayData.title}</h2>
+                                <p class="text-[11px] text-gray-500 font-medium">${dayData.date} (${dayData.week})</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                let cardsHtml = matchingItems.map(item => {
+                    const gMapUrl = item.googleMapUrl !== undefined ? item.googleMapUrl : (item.spot ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.spot)}` : '');
+                    const tabUrl = item.tabelogUrl || (item.officialUrl && item.officialUrl.includes('tabelog.com') ? item.officialUrl : '');
+                    const offUrl = item.officialUrl || '';
+                    const trsUrl = item.transitUrl !== undefined ? item.transitUrl : (item.spot ? `https://transit.yahoo.co.jp/search/result?flat=&from=&tlat=&tlon=&to=${encodeURIComponent(item.spot)}` : '');
+                    const appScheme = item.appScheme || '';
+                    
+                    const formattedImgPath = formatImagePath(item.img);
+
+                    return `
+                    <div class="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 border-l-4 border-l-orange-500 rounded-2xl p-4 space-y-3 shadow-sm relative">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-gray-500 dark:text-gray-400">${item.icon} ${item.time}</span>
+                            ${item.badge ? `<span class="badge-tabelog text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">${item.badge}</span>` : ''}
+                        </div>
+
+                        <h3 class="text-title font-black text-gray-900 dark:text-white leading-snug">${item.spot}</h3>
+                        <p class="text-desc text-gray-600 dark:text-gray-300 leading-relaxed">${item.desc}</p>
+                        
+                        ${item.img ? `<div class="w-full h-48 sm:h-56 overflow-hidden rounded-xl mt-2 bg-gray-100 dark:bg-slate-700 flex items-center justify-center"><img src="${formattedImgPath}" class="w-full h-full object-cover rounded-xl" alt="${item.spot}"></div>` : ''}
+
+                        <div class="pt-2.5 border-t border-gray-100 dark:border-slate-700/60 flex items-center justify-end gap-2">
+                            <button onclick="openAppOrUrl('', '${gMapUrl}')" title="Google 地圖導航" 
+                                class="px-2.5 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 text-xs font-bold flex items-center gap-1 border border-blue-200 dark:border-blue-800/50 ${gMapUrl ? 'btn-press hover:bg-blue-100 cursor-pointer' : 'opacity-25 cursor-not-allowed'}">
+                                <i class="fa-solid fa-location-dot"></i> 地圖
+                            </button>
+
+                            <button onclick="openAppOrUrl('', '${tabUrl}')" title="Tabelog 食評" 
+                                class="px-2.5 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center gap-1 border border-amber-200 dark:border-amber-800/50 ${tabUrl ? 'btn-press hover:bg-amber-100 cursor-pointer' : 'opacity-25 cursor-not-allowed'}">
+                                <i class="fa-solid fa-utensils"></i> 食評
+                            </button>
+
+                            <button onclick="openAppOrUrl('${appScheme}', '${offUrl}')" title="官方網站 / App" 
+                                class="px-2.5 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center gap-1 border border-emerald-200 dark:border-emerald-800/50 ${offUrl ? 'btn-press hover:bg-emerald-100 cursor-pointer' : 'opacity-25 cursor-not-allowed'}">
+                                <i class="fa-solid fa-globe"></i> 官網
+                            </button>
+
+                            <button onclick="openAppOrUrl('', '${trsUrl}')" title="Yahoo! 乘換案內" 
+                                class="px-2.5 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 text-xs font-bold flex items-center gap-1 border border-purple-200 dark:border-purple-800/50 ${trsUrl ? 'btn-press hover:bg-purple-100 cursor-pointer' : 'opacity-25 cursor-not-allowed'}">
+                                <i class="fa-solid fa-train"></i> 乘換
+                            </button>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+
+                daySection.innerHTML = dayHeaderHtml + `<div class="space-y-3 mt-3">${cardsHtml}</div>`;
+                container.appendChild(daySection);
+            });
+
+            // 找不到結果時的提示訊息
+            if (searchQuery && totalFoundCount === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-white dark:bg-slate-800 rounded-3xl border border-gray-200 dark:border-slate-700 p-6">
+                        <span class="text-4xl block mb-2">🔍</span>
+                        <h3 class="font-black text-gray-800 dark:text-white text-base">找不到相關的行程景點</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">請嘗試搜尋其他關鍵字（例如：鰻魚、銀杏、十社、拉麵）</p>
+                        <button onclick="clearSearch()" class="mt-4 bg-tokyo-red text-white text-xs px-4 py-2 rounded-xl font-bold btn-press">
+                            清除搜尋條件
+                        </button>
+                    </div>
+                `;
+            }
+
+            updateArrowVisibility();
+        }
+
+        function renderSummaryView(container) {
+            itineraryData.forEach(day => {
+                const isWeekend = day.week === 'Sat' || day.week === 'Sun';
+                const badgeBg = isWeekend ? 'bg-tokyo-red' : 'bg-gray-600';
+                const weekBadgeBg = isWeekend ? 'bg-red-500/20 text-red-500 border border-red-500/30' : 'bg-gray-500/20 text-gray-400 border border-gray-500/30';
+
+                const dayCard = document.createElement('div');
+                dayCard.className = "bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm mb-3 cursor-pointer hover:border-tokyo-red transition-colors";
+                dayCard.onclick = () => switchDay(day.day);
+                dayCard.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-1.5">
+                            <span class="${badgeBg} text-white text-xs font-black px-2 py-0.5 rounded-md summary-tag">Day ${day.day} (${day.date})</span>
+                            <span class="${weekBadgeBg} text-xs font-extrabold px-2 py-0.5 rounded-md summary-tag">${day.week}</span>
+                        </div>
+                        <span class="text-xs text-tokyo-red font-bold summary-tag">查看詳情 ➔</span>
+                    </div>
+                    <h3 class="text-title font-black text-gray-900 dark:text-white">${day.title}</h3>
+                    <p class="text-desc text-gray-600 dark:text-gray-400 mt-1">${day.summary}</p>
+                `;
+                container.appendChild(dayCard);
+            });
+        }
+
+        function getWeatherDesc(code) {
+            if (code === 0) return { icon: "☀️", text: "晴朗" };
+            if (code >= 1 && code <= 3) return { icon: "🌤️", text: "多雲" };
+            if (code >= 51) return { icon: "🌧️", text: "有雨" };
+            return { icon: "🌡️", text: "宜人" };
+        }
+
+        function getGPSWeather() {
+            const locEl = document.getElementById('weatherLoc');
+            locEl.innerText = "📍 定位中...";
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => fetchWeatherData(pos.coords.latitude, pos.coords.longitude, "目前位置 (GPS)"),
+                    () => fetchWeatherData(35.6762, 139.6503, "東京 (預設)"),
+                    { timeout: 5000 }
+                );
+            } else {
+                fetchWeatherData(35.6762, 139.6503, "東京 (預設)");
+            }
+        }
+
+        function fetchWeatherData(lat, lon, label) {
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.current_weather) {
+                        const temp = Math.round(data.current_weather.temperature);
+                        const info = getWeatherDesc(data.current_weather.weathercode);
+                        document.getElementById('weatherTemp').innerText = `${temp}°C (${info.text})`;
+                        document.getElementById('weatherIcon').innerText = info.icon;
+                        document.getElementById('weatherLoc').innerText = `📍 ${label}`;
+                    }
+                })
+                .catch(() => { document.getElementById('weatherLoc').innerText = "📍 天氣獲取失敗"; });
+        }
+
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function goBack() { window.history.back(); }
+        function forceChrome() {
+            const url = window.location.href.replace(/^https?:\/\//, '');
+            window.location.href = `intent://${url}#Intent;scheme=https;package=com.android.chrome;end`;
+        }
+        function downloadSelf() {
+            const blob = new Blob(["<!DOCTYPE html>\n" + document.documentElement.outerHTML], { type: "text/html;charset=utf-8" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "tokyo_trip_2026.html";
+            a.click();
+        }
+    </script>
+</body>
+</html>
