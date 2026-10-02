@@ -43,18 +43,18 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 全域字體大小控制 */
-        html.font-sm body { font-size: 13px !important; }
-        html.font-md body { font-size: 15px !important; }
-        html.font-lg body { font-size: 18px !important; }
+        /* 全域字體大小控制（全新放大標準：細 15px / 中 18px / 大 20px） */
+        html.font-sm body { font-size: 15px !important; }
+        html.font-md body { font-size: 18px !important; }
+        html.font-lg body { font-size: 20px !important; }
 
-        html.font-sm .text-title, html.font-sm h3, html.font-sm h2 { font-size: 1.05rem !important; }
-        html.font-md .text-title, html.font-md h3, html.font-md h2 { font-size: 1.25rem !important; }
-        html.font-lg .text-title, html.font-lg h3, html.font-lg h2 { font-size: 1.45rem !important; }
+        html.font-sm .text-title, html.font-sm h3, html.font-sm h2 { font-size: 1.2rem !important; }
+        html.font-md .text-title, html.font-md h3, html.font-md h2 { font-size: 1.38rem !important; }
+        html.font-lg .text-title, html.font-lg h3, html.font-lg h2 { font-size: 1.55rem !important; }
 
-        html.font-sm .text-desc, html.font-sm p { font-size: 0.85rem !important; }
-        html.font-md .text-desc, html.font-md p { font-size: 0.95rem !important; }
-        html.font-lg .text-desc, html.font-lg p { font-size: 1.15rem !important; }
+        html.font-sm .text-desc, html.font-sm p { font-size: 0.95rem !important; }
+        html.font-md .text-desc, html.font-md p { font-size: 1.125rem !important; }
+        html.font-lg .text-desc, html.font-lg p { font-size: 1.25rem !important; }
 
         .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .badge-tabelog { background: linear-gradient(135deg, #FF9900 0%, #FF5500 100%); }
@@ -473,7 +473,7 @@
                 </button>
             </div>
 
-            <!-- 主選單項目 (Chit & Us 按鈕已搬移至最底部) -->
+            <!-- 主選單項目 (Chit & Us 按鈕在最底部) -->
             <div class="py-3 border-b border-gray-200 dark:border-slate-700 space-y-1">
                 <button onclick="switchDay('all'); toggleDrawer(false);" class="w-full text-left py-2.5 px-3 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 font-bold flex items-center justify-between">
                     <span>📅 11 天行程總覽</span>
@@ -563,16 +563,16 @@
                     <label class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-2">文字大小 (Font Size)</label>
                     <div class="grid grid-cols-3 gap-2">
                         <button onclick="setFontSize('sm')" id="btnFontSm" class="py-2 rounded-xl border border-gray-300 dark:border-slate-600 font-bold text-center flex flex-col items-center justify-center">
-                            <span class="text-[11px] leading-none">A</span>
-                            <span class="text-[9px] text-gray-400 mt-1">細</span>
+                            <span class="text-xs leading-none">A</span>
+                            <span class="text-[9px] text-gray-400 mt-1">細 (15px)</span>
                         </button>
                         <button onclick="setFontSize('md')" id="btnFontMd" class="py-2 rounded-xl border border-gray-300 dark:border-slate-600 font-bold text-center flex flex-col items-center justify-center">
                             <span class="text-sm leading-none">A</span>
-                            <span class="text-[9px] text-gray-400 mt-1">中</span>
+                            <span class="text-[9px] text-gray-400 mt-1">中 (18px)</span>
                         </button>
                         <button onclick="setFontSize('lg')" id="btnFontLg" class="py-2 rounded-xl border border-gray-300 dark:border-slate-600 font-bold text-center flex flex-col items-center justify-center">
-                            <span class="text-lg leading-none">A</span>
-                            <span class="text-[9px] text-gray-400 mt-1">大</span>
+                            <span class="text-base leading-none">A</span>
+                            <span class="text-[9px] text-gray-400 mt-1">大 (20px)</span>
                         </button>
                     </div>
                 </div>
@@ -903,7 +903,7 @@
                     { time: "13:00 - 14:00", spot: "長瀞荒川遊船", category: "nature", desc: "路線：岩疊發船，終點為高砂橋，平穩欣賞沿岸奇岩風光（20 分鐘）。高砂橋搭乘免費接駁巴士返長瀞站。", badge: "荒川奇岩順流遊船", googleMapUrl: "https://maps.app.goo.gl/vtqzJSVq7bzW4q7U8", officialUrl: "https://www.chichibu-railway.co.jp/nagatoro/boat.html", img: "Tokyo 2026/Day7/Day7長瀞荒川遊船.jpg", icon: "🚣" },
                     { time: "14:00 - 15:30", spot: "寶登山纜車 ‧ 寶登山神社 ‧ SUSABINO TERRACE", category: "nature", desc: "長瀞站前搭乘免費接駁巴士至寶登山神社入口，步行數分鐘至山麓站搭乘纜車登高至 SUSABINO TERRACE 觀景平台。", badge: "寶登山全景觀景台", googleMapUrl: "https://maps.app.goo.gl/MxzTkueUk7dRcVr49", officialUrl: "https://www.chichibu-railway.co.jp/nagatoro/corse.html", img: "Tokyo 2026/Day7/Day7寶登山.jpg", icon: "🚠" },
                     { time: "15:45 - 16:30", spot: "阿左美冷蔵", category: "food", desc: "享用著名天然水刨冰甜品。（10:00-16:30 營業，休四）", badge: "Tabelog 3.64 刨冰百名店", googleMapUrl: "https://maps.app.goo.gl/afQLktNv1oHkMxSj7", tabelogUrl: "https://tabelog.com/saitama/A1107/A110704/11000617/", appScheme: "tabelog://", officialUrl: "http://asamireizo.web.fc2.com/", img: "Tokyo 2026/Day7/Day7阿左美冷蔵.jpg", icon: "🍧" },
-                    { time: "17:00", spot: "西武秩父站前 祭之湯", category: "onsen", desc: "體驗特色秩父溫泉【祭之湯】放鬆身心浸溫泉。", badge: "日歸名湯", googleMapUrl: "https://maps.app.goo.gl/Ut9pdZkCpGgucFn29", officialUrl: "https://www.seibu-leisure.co.jp/matsuri/index.html?utm_source=google&utm_medium=map&utm_campaign=Google_map_organic", img: "Tokyo 2026/Day7/Day7祭之湯.jpg", icon: "♨️️" },
+                    { time: "17:00", spot: "西武秩父站前 祭之湯", category: "onsen", desc: "體驗特色秩父溫泉【祭之湯】放鬆身心浸溫泉。", badge: "日歸名湯", googleMapUrl: "https://maps.app.goo.gl/Ut9pdZkCpGgucFn29", officialUrl: "https://www.seibu-leisure.co.jp/matsuri/index.html?utm_source=google&utm_medium=map&utm_campaign=Google_map_organic", img: "Tokyo 2026/Day7/Day7祭之湯.jpg", icon: "♨" },
                     { time: "18:30 - 19:30", spot: "祭之湯美食街", category: "food", desc: "享用草鞋豬肉丼、蔥拉麵與在地精釀啤酒晚餐。晚餐後約 19:30 乘車返回東武練馬站。", badge: "Tabelog 3.21 地元美食街", googleMapUrl: "https://maps.app.goo.gl/Ut9pdZkCpGgucFn29", tabelogUrl: "https://tabelog.com/saitama/A1107/A110701/11044455/", appScheme: "tabelog://", officialUrl: "https://www.seibu-leisure.co.jp/matsuri/utage/index.html", img: "Tokyo 2026/Day7/Day7祭之湯美食街.jpg", icon: "🍺" }
                 ]
             },
@@ -1401,7 +1401,7 @@
             updateArrowVisibility();
         }
 
-        /* 渲染 Chit & Us 專屬頁面 (已調鬆排版、字體細一級，並精確對齊「Chit」文字) */
+        /* 渲染 Chit & Us 專屬頁面 */
         function renderChitViewPage(container) {
             let chitItems = [];
             itineraryData.forEach(dayData => {
@@ -1424,7 +1424,6 @@
                             <span class="text-xl sm:text-2xl shrink-0">👦🏻</span>
                             <h2 class="text-base sm:text-lg font-black tracking-wide leading-tight truncate">Chit & Us 合體行程專頁</h2>
                         </div>
-                        <!-- 避開 Emoji，對齊「Chit」標題文字，並將字體縮小一級 -->
                         <p class="text-[10px] sm:text-xs opacity-90 font-medium pl-[26px] sm:pl-[32px] pt-0.5 tracking-tight">
                             依日期時間排序 ‧ 共 ${chitItems.length} 個精彩匯合點
                         </p>
