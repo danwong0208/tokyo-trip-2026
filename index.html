@@ -388,33 +388,11 @@
                     </div>
                 </div>
 
-                <!-- Day 6 -->
-                <div class="bg-gray-50 dark:bg-slate-900/60 rounded-2xl p-3.5 border border-gray-200 dark:border-slate-700 space-y-2">
-                    <div class="flex items-center justify-between pb-1.5 border-b border-gray-200 dark:border-slate-700">
-                        <span class="bg-gray-600 text-white font-black text-[11px] px-2.5 py-0.5 rounded-lg">01/12 (Tue)</span>
-                        <span class="font-bold text-gray-500">Day 6 築地皇居 teamLab</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
-                        <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
-                            <span class="block text-amber-500 font-bold mb-0.5">☀️ 上午</span>
-                            <span class="font-medium text-gray-700 dark:text-gray-300">09:30 築地海玄</span>
-                        </div>
-                        <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
-                            <span class="block text-blue-500 font-bold mb-0.5">🌤️ 下午</span>
-                            <span class="font-medium text-gray-700 dark:text-gray-300">皇居 ‧ 銀座八五 ‧ Dover ‧ Chocolatier</span>
-                        </div>
-                        <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
-                            <span class="block text-purple-500 font-bold mb-0.5">🌙 晚上</span>
-                            <span class="font-medium text-gray-700 dark:text-gray-300">麻布台teamLab ‧ 東京鐵塔 ‧ Aldebaran</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Day 7 (⭐ 匯合) -->
+                <!-- Day 6 (⭐ 匯合：01/12 對調後) -->
                 <div class="bg-red-500/5 dark:bg-red-950/20 rounded-2xl p-3.5 border border-red-200 dark:border-red-900/40 space-y-2">
                     <div class="flex items-center justify-between pb-1.5 border-b border-red-200 dark:border-red-900/40">
-                        <span class="bg-tokyo-red text-white font-black text-[11px] px-2.5 py-0.5 rounded-lg">02/12 (Wed) ⭐</span>
-                        <span class="font-bold text-tokyo-red">Day 7 浦和鰻魚川越古街</span>
+                        <span class="bg-tokyo-red text-white font-black text-[11px] px-2.5 py-0.5 rounded-lg">01/12 (Tue) ⭐</span>
+                        <span class="font-bold text-tokyo-red">Day 6 浦和鰻魚川越古街</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
                         <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
@@ -428,6 +406,28 @@
                         <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
                             <span class="block text-purple-500 font-bold mb-0.5">🌙 晚上</span>
                             <span class="font-medium text-gray-700 dark:text-gray-300">17:30 中華そば 深綠</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 7 (02/12 對調後) -->
+                <div class="bg-gray-50 dark:bg-slate-900/60 rounded-2xl p-3.5 border border-gray-200 dark:border-slate-700 space-y-2">
+                    <div class="flex items-center justify-between pb-1.5 border-b border-gray-200 dark:border-slate-700">
+                        <span class="bg-gray-600 text-white font-black text-[11px] px-2.5 py-0.5 rounded-lg">02/12 (Wed)</span>
+                        <span class="font-bold text-gray-500">Day 7 築地皇居 teamLab</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
+                        <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
+                            <span class="block text-amber-500 font-bold mb-0.5">☀️ 上午</span>
+                            <span class="font-medium text-gray-700 dark:text-gray-300">09:30 築地海玄</span>
+                        </div>
+                        <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
+                            <span class="block text-blue-500 font-bold mb-0.5">🌤️ 下午</span>
+                            <span class="font-medium text-gray-700 dark:text-gray-300">皇居 ‧ 銀座八五 ‧ Dover ‧ Chocolatier</span>
+                        </div>
+                        <div class="p-2 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700/60">
+                            <span class="block text-purple-500 font-bold mb-0.5">🌙 晚上</span>
+                            <span class="font-medium text-gray-700 dark:text-gray-300">麻布台teamLab ‧ 東京鐵塔 ‧ Aldebaran</span>
                         </div>
                     </div>
                 </div>
@@ -818,7 +818,7 @@
             }
         ];
 
-        // 完整 11 天行程（包含指定 8 個景點的 isChit 標記）
+        // 完整 11 天行程（已調配：Day 8 為 12/01 浦和鰻魚/水杉，Day 9 為 12/02 港區高輪十社/觀景/和牛丼，Day 10 為 12/03 池袋今半/購物/瞭望台/前野原溫泉）
         const itineraryData = [
             {
                 day: 1, date: "11/24", week: "Tue", title: "夜飛離港 成田啟程",
@@ -908,8 +908,20 @@
                 ]
             },
             {
-                day: 8, date: "12/01", week: "Tue", title: "東京十社 (9-10) 炸豬排咖啡百名店 高輪Gateway City高空觀景",
-                summary: "Tonkatsu Iwai 享用六白黑豚炸豬排、參拜芝大神宮、Le Pain Quotidien 芝公園 Café 輕食、芝公園東京鐵塔紅葉散策、參拜品川神社完成十社大滿貫！高輪 Gateway City LUFTBAUM 高空觀景與牛丼㐂㐂屋享用頂級和牛丼晚餐。", tag: "shrine",
+                day: 8, date: "12/01", week: "Tue", title: "埼玉浦和 4.02 神級鰻魚 水杉逆影紅葉 質感Café 麵包百名店",
+                summary: "東武練馬出發至埼玉浦和，排隊品嚐 4.02 神級鰻魚飯「鰻 むさし乃」、別所沼公園水杉逆影紅葉散策、ANOTHER PLACE CAFÉ 愜意輕食、KU~NERUbakery 採買手作麵包，返回東武練馬 Airbnb 稍息與 AEON 超市採買。", tag: "food",
+                items: [
+                    { time: "10:30", spot: "鰻 むさし乃", isChit: true, category: "food", desc: "東武練馬出發約 35-45 分鐘抵達埼玉浦和站排隊，品嚐宮崎佐土原和匠鰻新仔鰻重（JPY 6,600）。（11:00-13:00 營業，休一）", badge: "Tabelog 4.02 神級鰻魚百名店", googleMapUrl: "https://maps.app.goo.gl/5H6AMgzgQBFXimyQA", tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11003959/", appScheme: "tabelog://", officialUrl: "http://unagimusashino.com/", img: "Tokyo 2026/Day9/Day9鰻.jpg", icon: "🍱" },
+                    { time: "13:00", spot: "別所沼公園 水杉 逆さ紅葉", isChit: true, category: "nature", desc: "漫步別所沼公園，欣賞浪漫水杉與湖面白倒映的逆影紅葉美景。", badge: "水杉逆影紅葉", googleMapUrl: "https://maps.app.goo.gl/iWMX3LwsxqEE4yAu7", officialUrl: "https://www.sgp.or.jp/bessyonuma", img: "Tokyo 2026/Day9/Day9別所沼公園.jpg", icon: "🍁" },
+                    { time: "14:00", spot: "ANOTHER PLACE CAFÉ", category: "food", desc: "公園旁質感咖啡廳，享受午後放鬆氛圍與精緻輕食。", badge: "Tabelog 3.50 質感 Café", googleMapUrl: "https://maps.app.goo.gl/75yUYG4MkeYT9wVo9", tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11050911/", appScheme: "tabelog://", officialUrl: "https://gourmet513.com/page/index?gs=XOKva48yQAHC", img: "Tokyo 2026/Day9/Day9ANOTHER PLACE CAFÉ.jpg", icon: "☕" },
+                    { time: "15:00", spot: "KU~NERUbakery", category: "food", desc: "浦和站旁高評價麵包百名店，採買特色手作麵包。", badge: "Tabelog 3.70 麵包百名店", googleMapUrl: "https://maps.app.goo.gl/sA6Tos4HKTxAjDhXA", tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11028957/", appScheme: "tabelog://", officialUrl: "", img: "Tokyo 2026/Day9/Day9 KU~NERUbakery.jpg", icon: "🥐" },
+                    { time: "16:00", spot: "東武練馬 Airbnb 稍息", category: "hotel", desc: "返回東武練馬民宿整理與短暫休息補眠。", badge: "民宿休息", googleMapUrl: "https://maps.app.goo.gl/hn3Yvx5upiEGyNm86", officialUrl: "https://www.airbnb.com.hk/rooms/912618396435484170?guests=1&adults=1&s=67&unique_share_id=c48cfd75-8954-41da-b00b-15d6e9aef960", icon: "🛏️" },
+                    { time: "18:30", spot: "東武練馬板橋 AEON 超市", category: "shop", desc: "前往板橋 AEON 超市採買當季水果、小食與用品補給。", badge: "超市採買", googleMapUrl: "https://maps.app.goo.gl/eGpMNbDnYMqRawMWA", officialUrl: "https://www.aeon.jp/sc/itabashi/", icon: "🛍️" }
+                ]
+            },
+            {
+                day: 9, date: "12/02", week: "Wed", title: "東京十社 (9-10) 港區高輪 炸豬排 芝公園 品川神社大滿貫 高空觀景 和牛丼",
+                summary: "Tonkatsu Iwai 享用六白黑豚炸豬排、參拜芝大神宮、Le Pain Quotidien 芝公園 Café 輕食、芝公園東京鐵塔紅葉散策、參拜品川神社完成十社大滿貫！高輪 Gateway City LUFTBAUM 高空觀景與牛丼 㐂㐂屋享用頂級和牛丼晚餐。", tag: "shrine",
                 items: [
                     { time: "11:00", spot: "Tonkatsu Iwai (とんかつ いわい)", category: "food", desc: "享用夢幻頂級六白黑豚炸豬排。（11:30-14:30 營業，休日）", badge: "Tabelog 3.75 炸豬排百名店", googleMapUrl: "https://maps.app.goo.gl/9aNkkmJpcygHpE2e6", tabelogUrl: "https://tabelog.com/tokyo/A1314/A131401/13170377/", appScheme: "tabelog://", officialUrl: "https://tonkatsu-iwai.com/menu.html", img: "Tokyo 2026/Day8/Day8Tonkatsu Iwai.jpg", icon: "🥩" },
                     { time: "12:45", spot: "芝大神宮", category: "shrine", desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", badge: "十社巡禮 9/10", googleMapUrl: "https://maps.app.goo.gl/JefQyHB14mL3jZP98", officialUrl: "https://www.shibadaijingu.com/", img: "Tokyo 2026/Day8/Day8芝大神宮.jpg", icon: "⛩️" },
@@ -917,31 +929,19 @@
                     { time: "14:00", spot: "芝公園", category: "nature", desc: "漫步芝公園，欣賞東京鐵塔與金黃紅葉交織絕景散策。", badge: "東京鐵塔紅葉散策", googleMapUrl: "https://maps.app.goo.gl/BGcCPSgVZ48d456YA", officialUrl: "https://www.tokyo-park.or.jp/park/siba/", img: "Tokyo 2026/Day8/Day8芝公園.jpg", icon: "🗼" },
                     { time: "15:15", spot: "品川神社", category: "shrine", desc: "參拜、購買小繪馬，現場手寫（直書き）/ 御朱印紙（書き置き）。", badge: "十社巡禮 大滿貫 🎉 10/10", googleMapUrl: "https://maps.app.goo.gl/SyA2Xa5JRGK98Lr98", officialUrl: "https://shinagawajinja.tokyo/", img: "Tokyo 2026/Day8/Day8品川神社.jpg", icon: "⛩" },
                     { time: "16:00", spot: "高輪Gateway City ‧ LUFTBAUM高空觀景", category: "nature", desc: "登高高輪 Gateway City 28F LUFTBAUM，俯瞰全景高空城市景致。", badge: "高空觀景台", googleMapUrl: "https://maps.app.goo.gl/46STiAEGNpSGXPqg7", officialUrl: "https://www.newoman.jp/takanawa/floorguide/?area=area03nman01&floor=28f", img: "Tokyo 2026/Day8/Day8高輪.jpg", icon: "🏢" },
-                    { time: "18:00 - 19:00", spot: "牛丼 㐂㐂屋 (高輪MIMURE 3樓 NEWoMan)", category: "food", desc: "品嚐頂級品牌和牛丼：常陸牛丼 JPY 2,700、山形牛丼 JPY 3,200、神戶牛丼 JPY 4,950。（11:00-22:00 營業）。晚餐後約 19:00 乘車返回東武練馬站。", badge: "Tabelog 3.41 頂級和牛丼", googleMapUrl: "https://maps.app.goo.gl/aqphCZqmjx7vhXsC6", tabelogUrl: "https://tabelog.com/tokyo/A1314/A131403/13319190/", appScheme: "tabelog://", officialUrl: "https://www.instagram.com/gyudon_kikiya/", img: "Tokyo 2026/Day8/Day8㐂㐂屋.jpg", icon: "🍚" }
+                    { time: "18:00", spot: "牛丼 㐂㐂屋 (高輪MIMURE 3樓 NEWoMan)", category: "food", desc: "品嚐頂級品牌和牛丼：常陸牛丼 JPY 2,700、山形牛丼 JPY 3,200、神戶牛丼 JPY 4,950。（11:00-22:00 營業）。晚餐後乘車返回東武練馬站。", badge: "Tabelog 3.41 頂級和牛丼", googleMapUrl: "https://maps.app.goo.gl/aqphCZqmjx7vhXsC6", tabelogUrl: "https://tabelog.com/tokyo/A1314/A131403/13319190/", appScheme: "tabelog://", officialUrl: "https://www.instagram.com/gyudon_kikiya/", img: "Tokyo 2026/Day8/Day8㐂㐂屋.jpg", icon: "🍚" }
                 ]
             },
             {
-                day: 9, date: "12/02", week: "Wed", title: "埼玉 鰻魚紅葉半日遊 古民家溫泉夜",
-                summary: "東武練馬出發至埼玉浦和，排隊享用 4.02 神級鰻魚飯「鰻 むさし乃」、別所沼公園水杉逆影紅葉散策、ANOTHER PLACE CAFÉ 愜意輕食、KU~NERUbakery 3.70 麵包百名店採買、返回東武練馬 Airbnb 稍息，晚間前往前野原溫泉さやの湯處，於柿天舍享用和食晚餐並體驗露天風呂天然溫泉。", tag: "onsen",
-                items: [
-                    { time: "10:30", spot: "鰻 むさし乃", isChit: true, category: "food", desc: "東武練馬出發約 35-45 分鐘抵達埼玉浦和站排隊，品嚐宮崎佐土原和匠鰻新仔鰻重（JPY 6,600）。（11:00-13:00 營業，休一）", badge: "Tabelog 4.02 神級鰻魚百名店", googleMapUrl: "https://maps.app.goo.gl/5H6AMgzgQBFXimyQA", tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11003959/", appScheme: "tabelog://", officialUrl: "http://unagimusashino.com/", img: "Tokyo 2026/Day9/Day9鰻.jpg", icon: "🍱" },
-                    { time: "13:00", spot: "別所沼公園 水杉 逆さ紅葉", category: "nature", desc: "漫步別所沼公園，欣賞浪漫水杉與湖面白倒映的逆影紅葉美景。", badge: "水杉逆影紅葉", googleMapUrl: "https://maps.app.goo.gl/iWMX3LwsxqEE4yAu7", officialUrl: "https://www.sgp.or.jp/bessyonuma", img: "Tokyo 2026/Day9/Day9別所沼公園.jpg", icon: "🍁" },
-                    { time: "14:00", spot: "ANOTHER PLACE CAFÉ", category: "food", desc: "公園旁質感咖啡廳，享受午後放鬆氛圍與精緻輕食。", badge: "Tabelog 3.50 質感 Café", googleMapUrl: "https://maps.app.goo.gl/75yUYG4MkeYT9wVo9", tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11050911/", appScheme: "tabelog://", officialUrl: "https://gourmet513.com/page/index?gs=XOKva48yQAHC", img: "Tokyo 2026/Day9/Day9ANOTHER PLACE CAFÉ.jpg", icon: "☕" },
-                    { time: "15:00", spot: "KU~NERUbakery", category: "food", desc: "浦和站旁高評價麵包百名店，採買特色手作麵包。", badge: "Tabelog 3.70 麵包百名店", googleMapUrl: "https://maps.app.goo.gl/sA6Tos4HKTxAjDhXA", tabelogUrl: "https://tabelog.com/saitama/A1101/A110102/11028957/", appScheme: "tabelog://", officialUrl: "", img: "Tokyo 2026/Day9/Day9 KU~NERUbakery.jpg", icon: "🥐" },
-                    { time: "16:00", spot: "東武練馬 Airbnb 稍息", category: "hotel", desc: "返回東武練馬民宿整理與短暫休息補眠。", badge: "民宿休息", googleMapUrl: "https://maps.app.goo.gl/hn3Yvx5upiEGyNm86", officialUrl: "https://www.airbnb.com.hk/rooms/912618396435484170?guests=1&adults=1&s=67&unique_share_id=c48cfd75-8954-41da-b00b-15d6e9aef960", icon: "🛏️" },
-                    { time: "18:30", spot: "前野原溫泉 さやの湯處 柿天舍", category: "food", desc: "於古民家餐廳「柿天舍」享用十割蕎麥丼飯套餐或日式和食套餐。（10:00-00:00 營業）", badge: "Tabelog 3.48 古民家和食", googleMapUrl: "https://maps.app.goo.gl/NdxgSxogB3K6NFbV7", tabelogUrl: "https://tabelog.com/tokyo/A1322/A132205/13032298/", appScheme: "tabelog://", officialUrl: "https://www.sayanoyudokoro.co.jp/", img: "Tokyo 2026/Day9/Day9柿天舍.jpeg", icon: "🍲" },
-                    { time: "19:30", spot: "前野原溫泉 さやの湯處 露天風呂天然溫泉", category: "onsen", desc: "體驗源泉直瀉古民家露天風呂天然溫泉放鬆身心。巴士來回約 15 分鐘，隨後返回東武練馬 Airbnb。", badge: "源泉直瀉露天名湯", googleMapUrl: "https://maps.app.goo.gl/NdxgSxogB3K6NFbV7", officialUrl: "https://www.sayanoyudokoro.co.jp/facilities/", img: "Tokyo 2026/Day9/Day9前野原溫泉.jpg", icon: "♨️" }
-                ]
-            },
-            {
-                day: 10, date: "12/03", week: "Thu", title: "池袋 購物 觀景 壽喜燒 海鮮丼",
-                summary: "享用人形町今半 15F 頂級壽喜燒 Lunch Set、池袋商圈熱鬧逛街採買（3Coins+Plus、Standard Products、Seria、太陽城 alpa SM2 / Studio CLIP）、太陽城陽光 60 瞭望台 TENBOU-PARK 欣賞高空落日夜景、品嚐宍道湖蜆中華蕎麥琥珀特上拉麵，晚間返回東武練馬板橋 AEON 採買海膽拖羅醋飯返 Airbnb 享用宵夜。", tag: "shop",
+                day: 10, date: "12/03", week: "Thu", title: "池袋 壽喜燒 購物 觀景 前野原溫泉古民家和食夜",
+                summary: "享用人形町今半 15F 頂級壽喜燒 Lunch Set、池袋商圈熱鬧購物採買、太陽城陽光 60 瞭望台 TENBOU-PARK 欣賞高空夕陽絕景、返 Airbnb 稍息，晚間前往前野原溫泉さやの湯處，於柿天舍享用和食晚餐並體驗露天風呂天然溫泉。", tag: "onsen",
                 items: [
                     { time: "12:00", spot: "人形町今半 (池袋東武店 15F)", isChit: true, category: "food", desc: "享用百年老店極致黑毛和牛壽喜燒 Lunch Set (JPY 7,920)。（11:00-15:00，官網提前兩星期網上預約）", badge: "Tabelog 3.60 百年壽喜燒名店", googleMapUrl: "https://maps.app.goo.gl/irEJsQw2GtppiPz8A", tabelogUrl: "https://tabelog.com/tokyo/A1305/A130501/13187796/", appScheme: "tabelog://", officialUrl: "https://restaurant.imahan.com/menu-ikebukuro-tobu/", img: "Tokyo 2026/Day10/Day10人形町今半.jpg", icon: "🍲" },
                     { time: "13:30", spot: "池袋逛街購物", category: "shop", desc: "池袋商圈熱鬧散策採買：3Coins+Plus、Standard Products、Seria，以及太陽城 alpa B1F SM2 (Samansa Mos2)、1F Studio CLIP (FELISSIMO outlook)。", badge: "池袋商圈 Shopping", googleMapUrl: "https://maps.app.goo.gl/n9zPBEEP3gnZnV5t7", officialUrl: "", icon: "🛍️" },
                     { time: "16:30", spot: "太陽城陽光60瞭望台 TENBOU-PARK", category: "nature", desc: "登高高空綠洲 TENBOU-PARK，俯瞰 360 度池袋與東京天際線夕陽絕景。", badge: "高空 360 度觀景台", googleMapUrl: "https://maps.app.goo.gl/8GZRZTWLy7ndJuao7", officialUrl: "https://sunshinecity.jp/observatory/?utm_source=Google&utm_medium=mybusiness&utm_campaign=kutikomi&utm_id=1", img: "Tokyo 2026/Day10/Day10TENBOU-PARK.jpg", icon: "🌆" },
-                    { time: "18:15", spot: "宍道湖蜆中華蕎麥 琥珀 池袋店", category: "food", desc: "品嚐極致鮮美黃金蜆湯頭特上中華蕎麥拉麵。（11:00-22:30 營業）", badge: "Tabelog 3.74 超人氣拉麵", googleMapUrl: "https://maps.app.goo.gl/SP9wn5MYUh5xtW8c8", tabelogUrl: "https://tabelog.com/tokyo/A1305/A130501/13283190/", appScheme: "tabelog://", officialUrl: "https://x.com/ikebukurokohaku", img: "Tokyo 2026/Day10/Day10琥珀.jpg", icon: "🍜" },
-                    { time: "18:30 - 19:30", spot: "東武練馬板橋 AEON 超市", category: "shop", desc: "搭車返回東武練馬，於板橋 AEON 超市採買新鮮海膽與拖羅醋飯，帶返 Airbnb 享用美味海鮮晚餐宵夜。", badge: "海鮮宵夜採買", googleMapUrl: "https://maps.app.goo.gl/eGpMNbDnYMqRawMWA", officialUrl: "https://www.aeon.jp/sc/itabashi/", icon: "🍱" }
+                    { time: "18:00", spot: "東武練馬 Airbnb 稍息", category: "hotel", desc: "返回東武練馬民宿整理戰利品與短暫休息補眠。", badge: "民宿休息", googleMapUrl: "https://maps.app.goo.gl/hn3Yvx5upiEGyNm86", officialUrl: "https://www.airbnb.com.hk/rooms/912618396435484170?guests=1&adults=1&s=67&unique_share_id=c48cfd75-8954-41da-b00b-15d6e9aef960", icon: "🛏️" },
+                    { time: "19:30", spot: "前野原溫泉 さやの湯處 柿天舍", category: "food", desc: "於古民家餐廳「柿天舍」享用十割蕎麥丼飯套餐或日式和食套餐。（10:00-00:00 營業）", badge: "Tabelog 3.48 古民家和食", googleMapUrl: "https://maps.app.goo.gl/NdxgSxogB3K6NFbV7", tabelogUrl: "https://tabelog.com/tokyo/A1322/A132205/13032298/", appScheme: "tabelog://", officialUrl: "https://www.sayanoyudokoro.co.jp/", img: "Tokyo 2026/Day9/Day9柿天舍.jpeg", icon: "🍲" },
+                    { time: "20:30", spot: "前野原溫泉 さやの湯處 露天風呂天然溫泉", category: "onsen", desc: "體驗源泉直瀉古民家露天風呂天然溫泉放鬆身心。隨後返回東武練馬 Airbnb。", badge: "源泉直瀉露天名湯", googleMapUrl: "https://maps.app.goo.gl/NdxgSxogB3K6NFbV7", officialUrl: "https://www.sayanoyudokoro.co.jp/facilities/", img: "Tokyo 2026/Day9/Day9前野原溫泉.jpg", icon: "♨️" }
                 ]
             },
             {
@@ -954,7 +954,7 @@
                     { time: "13:30", spot: "Patisserie Materiel (パティスリー マテリエル)", category: "food", desc: "享用甜品百名店精緻絕倫的法式蛋糕與手作甜品。（10:00-18:00 營業，休三四）", badge: "Tabelog 3.81 甜品百名店", googleMapUrl: "https://maps.app.goo.gl/ieWd2n6GCMV3K7LTA", tabelogUrl: "https://tabelog.com/tokyo/A1322/A132203/13110008/", appScheme: "tabelog://", officialUrl: "http://www.patisserie-materiel.com/index.html", img: "Tokyo 2026/Day11/Day11Patisserie Materiel.jpg", icon: "🍰" },
                     { time: "15:30 - 18:00", spot: "機場巴士前往成田機場 T2 辦理 Check-in", category: "transport", desc: "返回池袋 Big Echo 取回行李，搭乘機場利木津巴士直達成田國際機場 Terminal 2，於 18:00 前抵達 Counter 辦理 UO651 航班 Check-in 及託運行李。", badge: "機票 UO651 (20:05 起飛)", googleMapUrl: "https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+2", officialUrl: "https://www.narita-airport.jp/zh-tc/shop/malllist-t2/", icon: "🚌" },
                     { time: "18:45", spot: "JAPAN FOOD HALL ‧ すし京辰 (成田機場 T2 出境後)", category: "food", desc: "出境後於 JAPAN FOOD HALL 內「すし京辰」享用離境前極致美味的野生黑鮪魚飯 (JPY 5,500) 或現場其他精緻日式美食。", badge: "Tabelog 3.18 野生黑鮪魚飯", tabelogUrl: "https://tabelog.com/chiba/A1204/A120401/12058358/", appScheme: "tabelog://", officialUrl: "https://tisshuang.com/blog/post/japan-food-hall", img: "Tokyo 2026/Day11/Day11 JAPAN FOOD HALL.jpg", icon: "🍣" },
-                    { time: "20:05", spot: "香港快運 UO651 ✈️ 滿載回憶返港", category: "transport", desc: "搭乘香港快運 UO651 航班 (20:05 起飛)，預計深夜抵達香港，為 11 天精彩的東京秋漫遊劃下完美句點！", badge: "返抵香港 🇭🇰", officialUrl: "https://www.hkexpress.com/", appScheme: "hkexpress://", icon: "🛫" }
+                    { time: "20:05", spot: "香港快運 UO651 ✈️ 滿載回億返港", category: "transport", desc: "搭乘香港快運 UO651 航班 (20:05 起飛)，預計深夜抵達香港，為 11 天精彩的東京秋漫遊劃下完美句點！", badge: "返抵香港 🇭🇰", officialUrl: "https://www.hkexpress.com/", appScheme: "hkexpress://", icon: "🛫" }
                 ]
             }
         ];
